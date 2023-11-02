@@ -17,4 +17,8 @@ default: &default
 development:
   <<: *default
   database: db_dev
+
+test:
+  <<: *default
+  database: db_test
 ...
