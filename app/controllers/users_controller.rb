@@ -17,10 +17,10 @@ class UsersController < ApplicationController
   def create
     @user = User.create!(user_params)
 
-    if @user.save
+    if @user
       render json: @user, status: :created
     else
-      render json: @user.errors, status: :unprocessable_entity
+      render json: 'Please provide proper name and email', status: :bad_request
     end
   end
 
