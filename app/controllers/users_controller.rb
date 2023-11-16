@@ -17,21 +17,23 @@ class UsersController < ApplicationController
   def create
     @user = User.create!(user_params)
 
-    if @user
-      render json: @user, status: :created
-    else
-      render json: 'Please provide proper name and email', status: :bad_request
-    end
+    render json: @user, status: :created
+
+  rescue ActiveRecord::RecordInvalid => e
+    render json: e.message, status: :bad_request
+  rescue Exception
+    head :unprocessable_entity
   end
 
   def destroy
-    @user = User.destroy(params[:id])
+    user = User.find(params[:id])
+    user.destroy!
+    head :no_content
 
-    if @user.destroy
-      render json: 'Success', status: :ok
-    else
-      render json: 'Error', status: :not_found
-    end
+  rescue ActiveRecord::RecordNotFound => e
+    render json: e.message, status: :not_found
+  rescue Exception
+    head :unprocessable_entity
   end
 
   private

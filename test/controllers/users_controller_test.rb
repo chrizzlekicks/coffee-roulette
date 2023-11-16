@@ -44,14 +44,16 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
   end
 
   test 'error if user cannot be created' do
-    post users_path, params: { name: 'fail' }
+    post users_path, params: { name: 'fail' }, as: :json
 
     assert_response :bad_request
+    assert_equal "Validation failed: Email can't be blank, Email Please provide valid email address", response.body
   end
 
   test 'error if user cannot be deleted' do
-    delete user_path(id: 1234567890)
+    delete user_path(id: 1234567890), as: :json
 
     assert_response :not_found
+    assert_equal "Couldn't find User with 'id'=1234567890", response.body
   end
 end
