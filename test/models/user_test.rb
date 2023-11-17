@@ -18,11 +18,11 @@ class UserTest < ActiveSupport::TestCase
 
     assert_not user.valid?
 
-    err = assert_raise ActiveRecord::RecordInvalid do
+    e = assert_raise ActiveRecord::RecordInvalid do
       user.save!
     end
 
-    assert_equal 'Validation failed: Email Please provide valid email address', err.message
+    assert_equal 'Validation failed: Email Please provide valid email address', e.message
   end
 
   test "save user with correct name and email" do

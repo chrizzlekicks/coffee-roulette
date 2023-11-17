@@ -33,14 +33,14 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
   test 'delete new user' do
     delete user_path(@user.id)
 
-    assert_response :ok
-    assert_equal 'Success', response.body
+    assert_response :no_content
   end
 
   test 'error if user does not exist' do
-    get user_path(id: 1234567890)
+    get user_path(id: 1234567890), as: :json
 
     assert_response :not_found
+    assert_equal "Couldn't find User with 'id'=1234567890", response.body
   end
 
   test 'error if user cannot be created' do
