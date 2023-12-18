@@ -5,10 +5,25 @@ class UserMatchingJobTest < ActiveJob::TestCase
     @job = UserMatchingJob.new
   end
 
-  test 'it works' do
-    assert_equal 'ello ello', @job.perform_now
+  test 'does nothing when there are no users' do
+    @job.perform_now
+
+    assert_empty UserMatch.all
   end
-  # test "the truth" do
-  #   assert true
-  # end
+
+  test 'does nothing when there is only one user' do
+    User.create!(name: 'test', email: 'test@test.de')
+
+    @job.perform_now
+
+    assert_empty UserMatch.all
+  end
+
+  test 'creates match when there are at least 2 users' do
+    2.times { |i| User.create!(name: "test#{i}", email: "test#{i}@test.de") }
+
+    assert_equal 2, @job.perform_now
+    assert_equal 1, Match.count
+    assert_equal 2, UserMatch.count
+  end
 end
