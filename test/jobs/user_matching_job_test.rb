@@ -39,6 +39,13 @@ class UserMatchingJobTest < ActiveJob::TestCase
     assert_equal User.count, UserMatch.count
   end
 
+  test 'bring it on' do
+    create_users 213
+
+    assert_equal 106, @job.perform_now
+    assert_equal User.count, UserMatch.count
+  end
+
   private
 
   def create_users(amount)

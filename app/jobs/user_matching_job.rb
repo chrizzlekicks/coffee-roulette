@@ -9,14 +9,7 @@ class UserMatchingJob < ApplicationJob
 
     merge_single_user_group(user_groups) if user_groups.last.last.nil?
 
-    matches = user_groups.map do |user_group|
-      match = Match.create!(date: DateTime.now)
-      match.create_user_matches(user_group)
-
-      match
-    end
-
-    matches.size
+    create_match_per_user_group(user_groups).size
   end
 
   private
@@ -24,5 +17,14 @@ class UserMatchingJob < ApplicationJob
   def merge_single_user_group(user_groups)
       last_group = user_groups.pop
       user_groups.last << last_group.first
+  end
+
+  def create_match_per_user_group(user_groups)
+    user_groups.map do |user_group|
+      match = Match.create!(date: DateTime.now)
+      match.create_user_matches(user_group)
+
+      match
+    end
   end
 end
