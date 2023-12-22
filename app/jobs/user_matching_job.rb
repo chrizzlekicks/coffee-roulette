@@ -3,12 +3,26 @@ class UserMatchingJob < ApplicationJob
 
   def perform(*args)
     users = User.all
-    return if users.count < 2
+    return 0 if users.count < 2
 
-    match = Match.create!(date: DateTime.now)
+    user_groups = users.shuffle.in_groups_of(2)
 
-    user_matches = match.create_user_matches(users)
+    merge_single_user_group(user_groups) if user_groups.last.last.nil?
 
-    user_matches.length
+    matches = user_groups.map do |user_group|
+      match = Match.create!(date: DateTime.now)
+      match.create_user_matches(user_group)
+
+      match
+    end
+
+    matches.size
+  end
+
+  private
+
+  def merge_single_user_group(user_groups)
+      last_group = user_groups.pop
+      user_groups.last << last_group.first
   end
 end

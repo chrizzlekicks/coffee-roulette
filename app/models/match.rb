@@ -1,9 +1,6 @@
 class Match < ApplicationRecord
-  has_many :user_matches
+  has_many :user_matches, validate: true
   has_many :users, through: :user_matches
-
-  validates_associated :user_matches
-  validates_associated :users
 
   validates :date, presence: true
   

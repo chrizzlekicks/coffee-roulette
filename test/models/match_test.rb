@@ -25,6 +25,7 @@ class MatchTest < ActiveSupport::TestCase
 
     match.create_user_matches(User.all)
 
-    assert_equal 2, UserMatch.all.count
+    assert_equal 2, match.user_matches.count
+    assert_equal 2, match.users.count
   end
 end
