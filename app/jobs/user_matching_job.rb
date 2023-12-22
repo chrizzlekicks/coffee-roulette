@@ -21,10 +21,7 @@ class UserMatchingJob < ApplicationJob
 
   def create_match_per_user_group(user_groups)
     user_groups.map do |user_group|
-      match = Match.create!(date: DateTime.now)
-      match.create_user_matches(user_group)
-
-      match
+      Match.create!(date: DateTime.now).create_user_matches(user_group)
     end
   end
 end
