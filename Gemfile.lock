@@ -200,6 +200,7 @@ GEM
     rexml (3.2.6)
     ruby2_keywords (0.0.5)
     rubyzip (2.3.2)
+    securerandom (0.2.2)
     selenium-webdriver (4.14.0)
       rexml (~> 3.2, >= 3.2.5)
       rubyzip (>= 1.2.2, < 3.0)
@@ -254,6 +255,7 @@ DEPENDENCIES
   puma (>= 5.0)
   rack-cors
   rails (~> 7.1.1)
+  securerandom
   selenium-webdriver
   sprockets-rails
   sqlite3 (~> 1.4)
