@@ -6,7 +6,7 @@ class SessionsController < ApplicationController
 
     return render json: "Invalid password", status: :bad_request unless user.authenticate(params[:password])
 
-    session[:user_id] = user.id
+    session[:current_user_id] = user.id
     render json: "Session created", status: :created
 
   rescue Exception
