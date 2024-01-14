@@ -2,14 +2,14 @@ require "test_helper"
 
 class UsersControllerTest < ActionDispatch::IntegrationTest
   setup do
-    @user = User.create!(:name => 'test', :email => 'test@test.de')
+    @user = User.create!(:username => 'test', :email => 'test@test.de', :password_digest => 'randompasswd')
   end
 
   test 'return all users' do
     get users_path
 
     assert_response :ok
-    assert_equal @user.name, JSON.parse(response.body).first['name']
+    assert_equal @user.username, JSON.parse(response.body).first['username']
     assert_equal @user.email, JSON.parse(response.body).first['email']
     assert JSON.parse(response.body).first['active']
   end
@@ -22,11 +22,12 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
   end
 
   test 'create new user and return it' do
-    post users_path, params: { name: 'test2', email: 'test2@test.de' }, as: :json
+    post users_path, params: { username: 'test2', email: 'test2@test.de', password_digest: 'salam' }, as: :json
 
     assert_response :created
     assert_equal 'test2@test.de', JSON.parse(response.body)['email']
-    assert_equal 'test2', JSON.parse(response.body)['name']
+    assert_equal 'test2', JSON.parse(response.body)['username']
+    assert_equal 'salam', JSON.parse(response.body)['password_digest']
     assert JSON.parse(response.body)['active']
   end
 
@@ -44,10 +45,10 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
   end
 
   test 'error if user cannot be created' do
-    post users_path, params: { name: 'fail' }, as: :json
+    post users_path, params: { username: 'fail' }, as: :json
 
     assert_response :bad_request
-    assert_equal "Validation failed: Email can't be blank, Email Please provide valid email address", response.body
+    assert_equal "Validation failed: Password can't be blank, Email can't be blank, Email Please provide valid email address", response.body
   end
 
   test 'error if user cannot be deleted' do
