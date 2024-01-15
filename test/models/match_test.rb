@@ -19,7 +19,7 @@ class MatchTest < ActiveSupport::TestCase
   end
 
   test 'creates two user matches when we create a match' do
-    2.times { |i| User.create!(email: "user#{i}@test.de", name: "user#{i}") }
+    2.times { |i| User.create!(email: "user#{i}@test.de", username: "user#{i}", password: "random") }
 
     match = Match.create!(date: DateTime.now)
 

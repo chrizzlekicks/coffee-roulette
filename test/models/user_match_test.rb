@@ -3,7 +3,7 @@ require "test_helper"
 class UserMatchTest < ActiveSupport::TestCase
   setup do
     @match = Match.create(date: DateTime.now)
-    @user = User.create(email: 'test@test.de', name: 'test')
+    @user = User.create(email: 'test@test.de', username: 'test', password: 'random')
   end
 
   test 'match_id validation' do
