@@ -46,9 +46,19 @@ class UserMatchingJobTest < ActiveJob::TestCase
     assert_equal User.count, UserMatch.count
   end
 
+  test 'only match active users' do
+    create_users 4
+
+    inactive_user = User.last
+    inactive_user.update!(active: false)
+
+    assert_equal 1, @job.perform_now
+    assert_not UserMatch.all.pluck(:user_id).include?(inactive_user.id)
+  end
+
   private
 
   def create_users(amount)
-    amount.times { |i| User.create!(name: "test#{i}", email: "test#{i}@test.de")}
+    amount.times { |i| User.create!(username: "test#{i}", email: "test#{i}@test.de", password: "passwd#{i}" )}
   end
 end

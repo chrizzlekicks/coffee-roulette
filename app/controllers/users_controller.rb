@@ -9,10 +9,10 @@ class UsersController < ApplicationController
 
     render json: user, status: :ok
 
-    rescue ActiveRecord::RecordNotFound => e
-      render json: e.message, status: :not_found
-    rescue Exception
-      head :unprocessable_entity
+  rescue ActiveRecord::RecordNotFound => e
+    render json: e.message, status: :not_found
+  rescue Exception
+    head :unprocessable_entity
   end
 
   def create
@@ -20,20 +20,20 @@ class UsersController < ApplicationController
 
     render json: user, status: :created
 
-    rescue ActiveRecord::RecordInvalid => e
-      render json: e.message, status: :bad_request
-    rescue Exception
-      head :unprocessable_entity
+  rescue ActiveRecord::RecordInvalid => e
+    render json: e.message, status: :bad_request
+  rescue Exception
+    head :unprocessable_entity
   end
 
   def destroy
     User.find(params[:id]).destroy!
     head :no_content
 
-    rescue ActiveRecord::RecordNotFound => e
-      render json: e.message, status: :not_found
-    rescue Exception
-      head :unprocessable_entity
+  rescue ActiveRecord::RecordNotFound => e
+    render json: e.message, status: :not_found
+  rescue Exception
+    head :unprocessable_entity
   end
 
   private

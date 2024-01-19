@@ -9,4 +9,10 @@ class User < ApplicationRecord
     message: 'Please provide valid email address'
   }
   validates :username, presence: true
+
+  scope :active, -> { where active: true }
+  scope :not_matched_today, -> do
+    joins(matches: :user_matches)
+      .where.not(matches:{date: DateTime.current.beginning_of_day..DateTime.current.end_of_day})
+  end
 end

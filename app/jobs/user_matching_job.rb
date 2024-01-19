@@ -2,7 +2,7 @@ class UserMatchingJob < ApplicationJob
   queue_as :default
 
   def perform(*args)
-    users = User.all
+    users = User.active
     return 0 if users.count < 2
 
     user_groups = users.shuffle.in_groups_of(2)
