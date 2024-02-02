@@ -20,15 +20,9 @@ class SessionsControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "start a new session and logout afterwards" do
-    post login_path, params: { username: @user.username, password: @user.password }, as: :json
+    create_session_for(@user)
 
-    assert_response :created
-    assert_equal "Session created", response.body
-
-    delete logout_path
-
-    assert_response :ok
-    assert_equal "Session closed", response.body
+    logout_session
   end
 
   test "does not log out if no user is signed in" do

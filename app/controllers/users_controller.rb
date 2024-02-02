@@ -26,6 +26,14 @@ class UsersController < ApplicationController
     head :unprocessable_entity
   end
 
+  def update
+    return head :bad_request if params[:active].nil?
+
+    current_user.update!(active: params[:active])
+
+    head :ok
+  end
+
   def destroy
     User.find(params[:id]).destroy!
     head :no_content

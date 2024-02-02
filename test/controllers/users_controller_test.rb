@@ -2,7 +2,7 @@ require "test_helper"
 
 class UsersControllerTest < ActionDispatch::IntegrationTest
   setup do
-    @user = User.create!(:username => 'test', :email => 'test@test.de', :password_digest => 'randompasswd')
+    @user = User.create!(username: 'test', email: 'test@test.de', password: 'randompasswd')
   end
 
   test 'return all users' do
@@ -56,5 +56,30 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
 
     assert_response :not_found
     assert_equal "Couldn't find User with 'id'=1234567890", response.body
+  end
+
+  test 'update active status of user' do
+    create_session_for(@user)
+
+    put users_path, params: { active: false }, as: :json
+
+    assert_response :ok
+    assert_not @user.reload[:active]
+  end
+
+  test 'update user fails' do
+    create_session_for(@user)
+
+    put users_path, params: { fail: true }, as: :json
+
+    assert_response :bad_request
+    assert @user.reload[:active]
+  end
+
+  test 'fails when no user is logged in' do
+    put users_path, params: { active: false }, as: :json
+
+    assert_response :not_found
+    assert @user.reload[:active]
   end
 end
