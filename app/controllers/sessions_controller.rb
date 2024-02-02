@@ -7,7 +7,7 @@ class SessionsController < ApplicationController
     return render json: "Invalid password", status: :bad_request unless user.authenticate(params[:password])
 
     log_in user
-  rescue Exception
+  rescue StandardError
     head :unprocessable_entity
   end
 
@@ -15,8 +15,7 @@ class SessionsController < ApplicationController
     return render json: "User is not logged in", status: :unauthorized unless is_logged_in?
 
     log_out
-
-  rescue Exception
+  rescue StandardError
     head :unprocessable_entity
   end
 
@@ -29,11 +28,12 @@ class SessionsController < ApplicationController
   end
 
   def is_logged_in?
-    !session[:user_id].nil?
+    current_user.present?
   end
 
   def log_out
     session.delete(:user_id)
+    @current_user = nil
 
     render json: "Session closed", status: :ok
   end
