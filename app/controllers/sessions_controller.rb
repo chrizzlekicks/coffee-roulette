@@ -27,9 +27,6 @@ class SessionsController < ApplicationController
     render json: "Session created", status: :created
   end
 
-  def is_logged_in?
-    current_user.present?
-  end
 
   def log_out
     session.delete(:user_id)

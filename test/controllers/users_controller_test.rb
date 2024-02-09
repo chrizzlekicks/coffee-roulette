@@ -6,6 +6,8 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
   end
 
   test 'return all users' do
+    create_session_for @user
+
     get users_path
 
     assert_response :ok
@@ -15,6 +17,8 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
   end
 
   test 'return user by id' do
+    create_session_for @user
+
     get user_path(@user.id)
 
     assert_response :ok
@@ -32,12 +36,16 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
   end
 
   test 'delete new user' do
-    delete user_path(@user.id)
+    create_session_for @user
+
+    delete users_path
 
     assert_response :no_content
+    assert_nil User.find_by(id: @user.id)
   end
 
   test 'error if user does not exist' do
+    create_session_for @user
     get user_path(id: 1234567890), as: :json
 
     assert_response :not_found
@@ -52,14 +60,13 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
   end
 
   test 'error if user cannot be deleted' do
-    delete user_path(id: 1234567890), as: :json
+    delete users_path
 
-    assert_response :not_found
-    assert_equal "Couldn't find User with 'id'=1234567890", response.body
+    assert_response :unauthorized
   end
 
   test 'update active status of user' do
-    create_session_for(@user)
+    create_session_for @user
 
     put users_path, params: { active: false }, as: :json
 
@@ -79,7 +86,7 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
   test 'fails when no user is logged in' do
     put users_path, params: { active: false }, as: :json
 
-    assert_response :not_found
+    assert_response :unauthorized
     assert @user.reload[:active]
   end
 end

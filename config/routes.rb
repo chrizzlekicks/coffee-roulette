@@ -1,7 +1,9 @@
 Rails.application.routes.draw do
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
-  resources :users, only: [:index, :create, :destroy, :show]
+  resources :users, only: [:index, :create, :show]
+
   put "users" => "users#update"
+  delete "users" => "users#destroy"
 
   post "login" => "sessions#create"
   delete "logout" => "sessions#destroy"

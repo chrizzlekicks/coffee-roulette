@@ -1,4 +1,6 @@
 class UsersController < ApplicationController
+  before_action :verify_authenticated, except: :create
+
   def index
     users = User.all
     render json: users
@@ -35,18 +37,18 @@ class UsersController < ApplicationController
   end
 
   def destroy
-    User.find(params[:id]).destroy!
-    head :no_content
+    current_user.destroy!
 
-  rescue ActiveRecord::RecordNotFound => e
-    render json: e.message, status: :not_found
-  rescue Exception
-    head :unprocessable_entity
+    head :no_content
   end
 
   private
 
   def user_params
     params.require(:user).permit(:email, :username, :password_digest)
+  end
+
+  def verify_authenticated
+    head :unauthorized unless is_logged_in?
   end
 end
