@@ -15,7 +15,7 @@ jobs:
         run: docker compose up -d
       - run: echo "The containers have been started!"
       - name: Run migrations
-        run: rails db:migrate
+        run: rails db:create && rails db:migrate
       - name: Run tests
         run: bundle exec rake
 

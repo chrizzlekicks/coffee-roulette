@@ -1,3 +1,6 @@
+[![Tests][https://github.com/chrizzlekicks/coffee-roulette/actions/workflows/tests.yml/badge.svg?branch=main]][https://github.com/chrizzlekicks/coffee-roulette/actions]]
+
+
 # README
 
 This README would normally document whatever steps are necessary to get the
