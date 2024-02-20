@@ -1,0 +1,21 @@
+name: Run tests action
+on: [push]
+jobs:
+  Tests:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository code
+        uses: actions/checkout@v4
+      - name: List files in the repository
+        run: |
+          ls ${{ github.workspace }}
+      - uses: ruby/setup-ruby@ec02537da5712d66d4d50a0f33b7eb52773b5ed1
+      - run: bundle install
+      - name: Start containers
+        run: docker compose up -d
+      - run: echo "The containers have been started!"
+      - name: Run migrations
+        run: rails db:migrate
+      - name: Run tests
+        run: bundle exec rake
+
