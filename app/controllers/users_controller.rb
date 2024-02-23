@@ -20,6 +20,8 @@ class UsersController < ApplicationController
   def create
     user = User.create!(user_params)
 
+    UserMailer.with(user: user).welcome
+
     render json: user, status: :created
 
   rescue ActiveRecord::RecordInvalid => e
