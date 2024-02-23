@@ -20,7 +20,7 @@ class UsersController < ApplicationController
   def create
     user = User.create!(user_params)
 
-    UserMailer.with(user: user).welcome
+    UserMailer.with(user: user).welcome.deliver_now
 
     render json: user, status: :created
 
