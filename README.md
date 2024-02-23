@@ -1,5 +1,4 @@
-[![Tests][https://github.com/chrizzlekicks/coffee-roulette/actions/workflows/tests.yml/badge.svg?branch=main]][https://github.com/chrizzlekicks/coffee-roulette/actions]]
-
+[![Tests][badge]][link]
 
 # README
 
@@ -25,3 +24,6 @@ Things you may want to cover:
 * Deployment instructions
 
 * ...
+
+[badge]: https://github.com/chrizzlekicks/coffee-roulette/actions/workflows/tests.yml/badge.svg?branch=main
+[link]: https://github.com/chrizzlekicks/coffee-roulette/actions
