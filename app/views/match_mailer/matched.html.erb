@@ -1,8 +1,8 @@
 
 <h1>How about some coffee??</h1>
 <p>
-  Heyyyy <% @user.username %>!
-  You got a new match with <% @matched_users.pluck(:email).join(" and ") %>!
+  Heyyyy <%= @user.username %>!
+  You got a new match with <%= @matched_users.pluck(:email).join(" and ") %>!
   <br>
 </p>
 <p>

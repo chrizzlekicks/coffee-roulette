@@ -7,7 +7,7 @@ class Match < ApplicationRecord
   def create_user_matches(users)
     users.map do |user|
       UserMatch.create!(match: self, user: user)
-      MatchMailer.with(user: user, matched_users: users - [user]).matched.perform_now
+      MatchMailer.with(user: user, matched_users: users - [user]).matched.deliver_now
     end
   end
 end
