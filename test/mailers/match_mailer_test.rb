@@ -8,7 +8,7 @@ class MatchMailerTest < ActionMailer::TestCase
     @user_two = User.create!(username: 'test-2', email: 'test-2@test.de', password: 'anotherrandompasswd')
   end
 
-  test 'simple case' do
+  test 'matched' do
     email = MatchMailer.with(user: @user_one, matched_users: [@user_two]).matched
 
     assert_emails 1 do

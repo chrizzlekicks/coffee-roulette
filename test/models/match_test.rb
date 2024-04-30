@@ -29,11 +29,11 @@ class MatchTest < ActiveSupport::TestCase
     assert_equal 2, match.users.count
   end
 
-  # test 'sends out an email for each created user match' do
-  #   2.times { |i| User.create!(email: "user#{i}@test.de", username: "user#{i}", password: "random") }
+  #test 'sends out an email for each created user match' do
+  #  2.times { |i| User.create!(email: "user#{i}@test.de", username: "user#{i}", password: "random") }
   #
-  #   match = Match.create!(date: DateTime.now)
+  #  match = Match.create!(date: DateTime.now)
   #
-  #   match.create_user_matches(User.all)
-  # end
+  #  match.create_user_matches(User.all)
+  #end
 end
