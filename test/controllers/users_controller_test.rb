@@ -1,3 +1,5 @@
+# # frozen_string_literal: true
+
 require "test_helper"
 
 class UsersControllerTest < ActionDispatch::IntegrationTest
@@ -77,7 +79,7 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
   end
 
   test 'update user fails' do
-    create_session_for(@user)
+    create_session_for @user
 
     put users_path, params: { fail: true }, as: :json
 

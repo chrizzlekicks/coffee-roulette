@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require "test_helper"
 
 class MatchTest < ActiveSupport::TestCase
@@ -19,7 +21,7 @@ class MatchTest < ActiveSupport::TestCase
   end
 
   test 'creates two user matches when we create a match' do
-    2.times { |i| User.create!(email: "user#{i}@test.de", username: "user#{i}", password: "random") }
+    stub_multiple_users 2
 
     match = Match.create!(date: DateTime.now)
 
@@ -29,11 +31,23 @@ class MatchTest < ActiveSupport::TestCase
     assert_equal 2, match.users.count
   end
 
-  #test 'sends out an email for each created user match' do
-  #  2.times { |i| User.create!(email: "user#{i}@test.de", username: "user#{i}", password: "random") }
-  #
-  #  match = Match.create!(date: DateTime.now)
-  #
-  #  match.create_user_matches(User.all)
-  #end
+  test 'sends out regular mails for every user in the user group' do
+    stub_multiple_users 2
+  
+    match = Match.create!(date: DateTime.now)
+  
+    assert_emails 2 do
+      match.create_user_matches(User.all)
+    end
+  end
+
+  test 'sends out 3 mails for three users' do
+    stub_multiple_users 3
+  
+    match = Match.create!(date: DateTime.now)
+  
+    assert_emails 3 do
+      match.create_user_matches(User.all)
+    end
+  end
 end

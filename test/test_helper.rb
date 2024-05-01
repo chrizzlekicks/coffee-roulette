@@ -4,6 +4,8 @@ require "rails/test_help"
 
 module ActiveSupport
   class TestCase
+    include ActionMailer::TestHelper
+
     # Run tests in parallel with specified workers
     parallelize(workers: :number_of_processors)
 
@@ -21,6 +23,10 @@ module ActiveSupport
       delete "/logout"
       assert_response :ok
       assert_equal "Session closed", response.body
+    end
+
+    def stub_multiple_users(count)
+      count.times { |i| User.create!(username: "test#{i}", email: "test#{i}@test.de", password: "passwd#{i}" )}
     end
   end
 end
