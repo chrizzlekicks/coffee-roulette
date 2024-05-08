@@ -209,6 +209,7 @@ GEM
       prism (>= 0.23.0, < 0.28)
       sorbet-runtime (>= 0.5.10782)
     rubyzip (2.3.2)
+    securerandom (0.2.2)
     selenium-webdriver (4.20.1)
       base64 (~> 0.2)
       rexml (~> 3.2, >= 3.2.5)
@@ -260,6 +261,7 @@ DEPENDENCIES
   rack-cors
   rails (~> 7.1.1)
   ruby-lsp
+  securerandom
   selenium-webdriver
   sprockets-rails
   tzinfo-data
