@@ -4,6 +4,10 @@ class User < ApplicationRecord
 
   has_secure_password
 
+  generates_token_for :password_reset, expires_in: 1.day do
+    BCrypt::Password.new(password_digest).salt[-10..]
+  end
+
   validates :email, presence: true, uniqueness: true, format: {
     with: /[a-z0-9]+@[a-z]+\.[a-z]{2,3}/,
     message: 'Please provide valid email address'
