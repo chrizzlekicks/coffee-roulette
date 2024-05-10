@@ -3,11 +3,15 @@
 require 'minitest/autorun'
 
 class PasswordResetsControllerTest < ActionDispatch::IntegrationTest
-  def setup
-    # Do nothing
+  setup do
+    @user = User.create!(username: 'test', email: 'test@test.de', password: 'randompasswd')
   end
 
-  def test
-    skip 'Not implemented'
+  test 'foo' do
+    post password_reset_path, params: {
+      email: @user.email
+    }
+
+    assert_response :created
   end
 end

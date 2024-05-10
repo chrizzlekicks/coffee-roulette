@@ -5,6 +5,8 @@ Rails.application.routes.draw do
   put "users" => "users#update"
   delete "users" => "users#destroy"
 
+  post "password/reset" => "password_resets#create"
+
   post "login" => "sessions#create"
   delete "logout" => "sessions#destroy"
 
