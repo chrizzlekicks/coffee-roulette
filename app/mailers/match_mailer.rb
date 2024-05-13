@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class MatchMailer < ApplicationMailer
-  default from: "hello@coffeeroulett.com"
+  default from: "hello@coffeeroulette.com"
 
   def matched
     @user = params[:user]
