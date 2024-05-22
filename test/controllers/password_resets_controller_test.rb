@@ -8,7 +8,7 @@ class PasswordResetsControllerTest < ActionDispatch::IntegrationTest
   end
 
   test 'throws bad request if no email is provided in params' do
-    post password_request_path, params: {
+    post password_reset_path, params: {
       email: nil
     }
 
@@ -16,7 +16,7 @@ class PasswordResetsControllerTest < ActionDispatch::IntegrationTest
   end
 
   test 'throws not found if wrong email is provided in params' do
-    post password_request_path, params: {
+    post password_reset_path, params: {
       email: 'invalid'
     }
 
@@ -25,7 +25,7 @@ class PasswordResetsControllerTest < ActionDispatch::IntegrationTest
 
   test 'sends one email to user when password reset is triggered and returns 201 status code' do
     assert_emails 1 do
-      post password_request_path, params: {
+      post password_reset_path, params: {
         email: @user.email
       }
 
@@ -35,7 +35,7 @@ class PasswordResetsControllerTest < ActionDispatch::IntegrationTest
 
   test 'URL with token is sent by email' do
     emails = capture_emails do
-      post password_request_path, params: {
+      post password_reset_path, params: {
         email: @user.email
       }
     end
