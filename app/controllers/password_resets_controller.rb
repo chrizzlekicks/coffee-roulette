@@ -8,6 +8,8 @@ class PasswordResetsController < ApplicationController
 
     token = user.generate_token_for(:password_reset)
 
-    render json: { password_reset_token: token }, status: :created
+    PasswordResetMailer.with(user: user, token: token).reset_link.deliver_now
+
+    head :created
   end
 end

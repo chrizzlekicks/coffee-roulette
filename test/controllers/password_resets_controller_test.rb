@@ -23,12 +23,23 @@ class PasswordResetsControllerTest < ActionDispatch::IntegrationTest
     assert_response :not_found
   end
 
-  test 'generates a token' do
-    post password_request_path, params: {
-      email: @user.email
-    }
+  test 'sends one email to user when password reset is triggered and returns 201 status code' do
+    assert_emails 1 do
+      post password_request_path, params: {
+        email: @user.email
+      }
 
-    assert_response :created
-    assert JSON.parse(response.body)['password_reset_token']
+      assert_response :created
+    end
+  end
+
+  test 'URL with token is sent by email' do
+    emails = capture_emails do
+      post password_request_path, params: {
+        email: @user.email
+      }
+    end
+
+    assert_includes emails.first.html_part.body.to_s, 'https://coffeeroulette.com/password/reset?token='
   end
 end
