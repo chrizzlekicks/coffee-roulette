@@ -10,10 +10,9 @@ class UsersController < ApplicationController
     user = User.find(params[:id])
 
     render json: user, status: :ok
-
   rescue ActiveRecord::RecordNotFound => e
     render json: e.message, status: :not_found
-  rescue Exception
+  rescue StandardError
     head :unprocessable_entity
   end
 
@@ -23,10 +22,9 @@ class UsersController < ApplicationController
     UserMailer.with(user: user).welcome.deliver_now
 
     render json: user, status: :created
-
   rescue ActiveRecord::RecordInvalid => e
     render json: e.message, status: :bad_request
-  rescue Exception
+  rescue StandardError
     head :unprocessable_entity
   end
 
