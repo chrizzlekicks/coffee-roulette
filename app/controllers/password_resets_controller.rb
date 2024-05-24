@@ -12,4 +12,14 @@ class PasswordResetsController < ApplicationController
 
     head :created
   end
+
+  def update
+    user = User.find_by_token_for!(:password_reset, params[:token])
+
+    user.update!(password_digest: params[:password_digest])
+
+    # perhaps we should clear the session of the user
+
+    head :ok
+  end
 end

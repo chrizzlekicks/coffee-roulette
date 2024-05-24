@@ -8,6 +8,7 @@ class User < ApplicationRecord
     BCrypt::Password.new(password_digest).salt[-10..]
   end
 
+  # password should be properly validated
   validates :email, presence: true, uniqueness: true, format: {
     with: /[a-z0-9]+@[a-z]+\.[a-z]{2,3}/,
     message: 'Please provide valid email address'

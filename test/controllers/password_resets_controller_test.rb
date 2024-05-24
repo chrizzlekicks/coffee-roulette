@@ -42,4 +42,23 @@ class PasswordResetsControllerTest < ActionDispatch::IntegrationTest
 
     assert_includes emails.first.html_part.body.to_s, 'https://coffeeroulette.com/password/reset?token='
   end
+
+  test 'updates password of the user with new password and token' do
+    token = @user.generate_token_for(:password_reset)
+
+    assert_changes -> { @user.reload.password_digest } do
+      put password_reset_path, params: {
+        token: token,
+        password_digest: 'whatever'
+      }
+
+      assert_response :ok
+    end
+  end
+
+  # test 'wrong token provided'
+  # test 'no token provided'
+  # test 'expired token provided'
+  # test 'bad request: password wrong format'
+  # test 'session cleared'
 end
