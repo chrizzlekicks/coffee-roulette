@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
 class PasswordResetsController < ApplicationController
-  rescue_from ActiveRecord::RecordInvalid do |error|
-    render json: error.message, status: :bad_request
+  rescue_from ActiveRecord::RecordInvalid do
+    head :bad_request
   end
 
   def create
@@ -15,8 +15,8 @@ class PasswordResetsController < ApplicationController
     PasswordResetMailer.with(user: user, token: token).reset_link.deliver_now
 
     head :created
-  rescue ActiveRecord::RecordNotFound => e
-    render json: e.message, status: :not_found
+  rescue ActiveRecord::RecordNotFound
+    head :not_found
   end
 
   def update
@@ -24,10 +24,12 @@ class PasswordResetsController < ApplicationController
 
     user.update!(password_digest: params[:password_digest])
 
-    # perhaps we should clear the session of the user
+    log_out
 
     head :ok
-  rescue ActiveRecord::RecordNotFound => e
-    render json: e.message, status: :not_found
+  rescue ActiveRecord::RecordNotFound
+    head :not_found
+  rescue ActiveSupport::MessageVerifier::InvalidSignature
+    head :bad_request
   end
 end

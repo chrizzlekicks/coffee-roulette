@@ -26,12 +26,4 @@ class SessionsController < ApplicationController
 
     render json: "Session created", status: :created
   end
-
-
-  def log_out
-    session.delete(:user_id)
-    @current_user = nil
-
-    render json: "Session closed", status: :ok
-  end
 end

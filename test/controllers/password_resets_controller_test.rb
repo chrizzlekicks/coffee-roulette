@@ -56,9 +56,64 @@ class PasswordResetsControllerTest < ActionDispatch::IntegrationTest
     end
   end
 
-  # test 'wrong token provided'
-  # test 'no token provided'
-  # test 'expired token provided'
-  # test 'bad request: password wrong format'
-  # test 'session cleared'
+  test 'wrong token provided' do
+    put password_reset_path, params: {
+      token: 'blabla',
+    }
+
+    assert_response :bad_request
+  end
+
+  test 'valid signature but no user' do
+    token = @user.generate_token_for(:password_reset)
+
+    @user.destroy!
+
+    put password_reset_path, params: {
+      token: token,
+      password_digest: 'whatever'
+    }
+
+    assert_response :not_found
+  end
+
+  test 'no token provided' do
+    put password_reset_path, params: {
+      password_digest: 'newpassword'
+    }
+
+    assert_response :bad_request
+  end
+
+  test 'expired token provided' do
+    token = @user.generate_token_for(:password_reset)
+
+    travel 2.days do
+      put password_reset_path, params: {
+        token: token,
+        password_digest: 'whatever'
+      }
+
+      assert_response :bad_request
+    end
+  end
+
+  test 'session cleared' do
+    create_session_for(@user)
+
+    token = @user.generate_token_for(:password_reset)
+
+    put password_reset_path, params: {
+      token: token,
+      password_digest: 'newshinypasswd'
+    }
+
+    assert_response :ok
+
+    get users_path, params: {
+      id: @user.id
+    }
+
+    assert_response :unauthorized
+  end
 end
