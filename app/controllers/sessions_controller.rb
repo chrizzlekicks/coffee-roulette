@@ -2,9 +2,9 @@ class SessionsController < ApplicationController
   def create
     user = User.find_by(username: params[:username])
 
-    return render json: "User not found", status: :not_found unless user.present?
+    return render json: "Email or password seem to be wrong or non existent", status: :bad_request unless user.present?
 
-    return render json: "Invalid password", status: :bad_request unless user.authenticate(params[:password])
+    return render json: "Email or password seem to be wrong or non existent", status: :bad_request unless user.authenticate(params[:password])
 
     log_in user
   rescue StandardError

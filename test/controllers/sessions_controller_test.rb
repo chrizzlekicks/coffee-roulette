@@ -10,15 +10,15 @@ class SessionsControllerTest < ActionDispatch::IntegrationTest
   test "does not create a session due to missing user" do
     post login_path, params: { username: "yolo", password: "banana" }
 
-    assert_response :not_found
-    assert_equal "User not found", response.body
+    assert_response :bad_request
+    assert_equal "Email or password seem to be wrong or non existent", response.body
   end
 
   test "fails due to invalid password" do
     post login_path, params: { username: @user.username, password: 'randompassword'}
 
     assert_response :bad_request
-    assert_equal "Invalid password", response.body
+    assert_equal "Email or password seem to be wrong or non existent", response.body
   end
 
   test "start a new session and logout afterwards" do
