@@ -1,4 +1,8 @@
-class ApplicationController < ActionController::API
+class ApplicationController < ActionController::Base
+  def index
+    render 'layouts/application'
+  end
+
   def current_user
     @current_user ||= session[:user_id] && User.find(session[:user_id])
   end
