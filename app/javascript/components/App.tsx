@@ -1,5 +1,4 @@
 import { createSignal } from 'solid-js';
-import './App.css'
 
 const App = () => {
   const [username, setUsername] = createSignal('')
@@ -21,23 +20,16 @@ const App = () => {
   return (
       <>
         <header class='flex justify-center p-2'>
-          <h1 class='color-sky'>Welcome to Coffee Roulette</h1>
+          <h1 class='text-4xl'>Welcome to Coffee Roulette</h1>
         </header>
-        <form>
-          <h2>Signup</h2>
-          <div>
-            <label>Username: </label>
-            <input name='username' type='text' onChange={(e) => setUsername(e.target.value)} value={username()} />
-          </div>
-          <div>
-            <label>E-Mail address: </label>
-            <input name='email' type='email' onChange={(e) => setEmail(e.target.value)} value={email()} />
-          </div>
-          <div>
-            <label>Password: </label>
-            <input name='password' type='password' onChange={(e) => setPassword(e.target.value)} value={password()} />
-          </div>
-          <button type='submit' onClick={handleSubmit}>Submit</button>
+        <form class='form-control'>
+          <label class='label'>Username: </label>
+          <input class='input input-bordered' name='username' type='text' onChange={(e) => setUsername(e.target.value)} value={username()} />
+          <label class='label'>E-Mail address: </label>
+          <input class='input input-bordered' name='email' type='email' onChange={(e) => setEmail(e.target.value)} value={email()} />
+          <label class='label'>Password: </label>
+          <input class='input input-bordered' name='password' type='password' onChange={(e) => setPassword(e.target.value)} value={password()} />
+          <button class='btn btn-primary' type='submit' onClick={handleSubmit}>Submit</button>
         </form>
       </>
   );
