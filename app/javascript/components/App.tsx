@@ -1,7 +1,7 @@
-import { type Component, createSignal } from 'solid-js';
+import { createSignal } from 'solid-js';
 import './App.css'
 
-const App: Component = () => {
+const App = () => {
   const [username, setUsername] = createSignal('')
   const [email, setEmail] = createSignal('')
   const [password, setPassword] = createSignal('')
