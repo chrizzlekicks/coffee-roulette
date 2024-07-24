@@ -1,7 +1,9 @@
+# frozen_string_literal: true
+
 class UserMatchingJob < ApplicationJob
   queue_as :default
 
-  def perform(*args)
+  def perform(*_args)
     users = User.active
     return 0 if users.count < 2
 
@@ -15,8 +17,8 @@ class UserMatchingJob < ApplicationJob
   private
 
   def merge_single_user_group(user_groups)
-      last_group = user_groups.pop
-      user_groups.last << last_group.first
+    last_group = user_groups.pop
+    user_groups.last << last_group.first
   end
 
   def create_match_per_user_group(user_groups)

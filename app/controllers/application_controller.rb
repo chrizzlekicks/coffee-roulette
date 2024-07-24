@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class ApplicationController < ActionController::Base
   def index
     render 'layouts/application'
@@ -15,6 +17,6 @@ class ApplicationController < ActionController::Base
     session.delete(:user_id)
     @current_user = nil
 
-    render json: "Session closed", status: :ok
+    render json: 'Session closed', status: :ok
   end
 end

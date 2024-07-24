@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class User < ApplicationRecord
   has_many :user_matches
   has_many :matches, through: :user_matches
@@ -16,8 +18,8 @@ class User < ApplicationRecord
   validates :username, presence: true
 
   scope :active, -> { where active: true }
-  scope :not_matched_today, -> do
+  scope :not_matched_today, lambda {
     joins(matches: :user_matches)
-      .where.not(matches:{date: DateTime.current.beginning_of_day..DateTime.current.end_of_day})
-  end
+      .where.not(matches: { date: DateTime.current.beginning_of_day..DateTime.current.end_of_day })
+  }
 end

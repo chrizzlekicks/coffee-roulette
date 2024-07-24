@@ -15,6 +15,6 @@ class PasswordResetMailerTest < ActionMailer::TestCase
     end
 
     assert_equal @user.email, email.to.first
-    assert_equal "Here is your password reset link", email.subject
+    assert_equal 'Here is your password reset link', email.subject
   end
 end

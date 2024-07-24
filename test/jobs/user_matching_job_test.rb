@@ -1,6 +1,8 @@
+# frozen_string_literal: true
+
 # # frozen_string_literal: true
 
-require "test_helper"
+require 'test_helper'
 
 class UserMatchingJobTest < ActiveJob::TestCase
   setup do
@@ -58,4 +60,3 @@ class UserMatchingJobTest < ActiveJob::TestCase
     assert_not UserMatch.all.pluck(:user_id).include?(inactive_user.id)
   end
 end
-

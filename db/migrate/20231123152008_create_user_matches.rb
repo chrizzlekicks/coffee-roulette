@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class CreateUserMatches < ActiveRecord::Migration[7.1]
   def change
     create_table :user_matches, id: :uuid do |t|

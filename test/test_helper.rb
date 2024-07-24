@@ -1,6 +1,8 @@
-ENV["RAILS_ENV"] ||= "test"
-require_relative "../config/environment"
-require "rails/test_help"
+# frozen_string_literal: true
+
+ENV['RAILS_ENV'] ||= 'test'
+require_relative '../config/environment'
+require 'rails/test_help'
 
 module ActiveSupport
   class TestCase
@@ -14,19 +16,19 @@ module ActiveSupport
 
     # Add more helper methods to be used by all tests here...
     def create_session_for(user)
-      post "/login", params: { username: user.username, password: user.password }, as: :json
+      post '/login', params: { username: user.username, password: user.password }, as: :json
       assert_response :created
-      assert_equal "Session created", response.body
+      assert_equal 'Session created', response.body
     end
 
     def logout_session
-      delete "/logout"
+      delete '/logout'
       assert_response :ok
-      assert_equal "Session closed", response.body
+      assert_equal 'Session closed', response.body
     end
 
     def stub_multiple_users(count)
-      count.times { |i| User.create!(username: "test#{i}", email: "test#{i}@test.de", password: "passwd#{i}" )}
+      count.times { |i| User.create!(username: "test#{i}", email: "test#{i}@test.de", password: "passwd#{i}") }
     end
   end
 end

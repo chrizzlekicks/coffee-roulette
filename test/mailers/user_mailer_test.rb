@@ -15,7 +15,7 @@ class UserMailerTest < ActionMailer::TestCase
     end
 
     assert_equal @user.email, email.to.first
-    assert_equal "Welcome", email.subject
+    assert_equal 'Welcome', email.subject
     assert email.html_part.body.to_s.include?("your username is: #{@user.username}")
     assert email.text_part.body.to_s.include?("your username is: #{@user.username}")
   end

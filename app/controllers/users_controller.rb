@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class UsersController < ApplicationController
   before_action :verify_authenticated, except: :create
 
@@ -19,7 +21,7 @@ class UsersController < ApplicationController
   def create
     user = User.create!(user_params)
 
-    UserMailer.with(user: user).welcome.deliver_now
+    UserMailer.with(user:).welcome.deliver_now
 
     render json: user, status: :created
   rescue ActiveRecord::RecordInvalid => e

@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class PasswordResetMailer < ApplicationMailer
-  default from: "hello@coffeeroulette.com"
+  default from: 'hello@coffeeroulette.com'
 
   def reset_link
     @user = params[:user]

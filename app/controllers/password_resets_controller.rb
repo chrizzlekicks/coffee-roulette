@@ -8,11 +8,11 @@ class PasswordResetsController < ApplicationController
   def create
     return head :bad_request if params[:email].blank?
 
-    user = User.find_by_email!(params[:email])
+    user = User.find_by!(email: params[:email])
 
     token = user.generate_token_for(:password_reset)
 
-    PasswordResetMailer.with(user: user, token: token).reset_link.deliver_now
+    PasswordResetMailer.with(user:, token:).reset_link.deliver_now
 
     head :created
   rescue ActiveRecord::RecordNotFound

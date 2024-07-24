@@ -48,7 +48,7 @@ class PasswordResetsControllerTest < ActionDispatch::IntegrationTest
 
     assert_changes -> { @user.reload.password_digest } do
       put password_reset_path, params: {
-        token: token,
+        token:,
         password_digest: 'whatever'
       }
 
@@ -58,7 +58,7 @@ class PasswordResetsControllerTest < ActionDispatch::IntegrationTest
 
   test 'wrong token provided' do
     put password_reset_path, params: {
-      token: 'blabla',
+      token: 'blabla'
     }
 
     assert_response :bad_request
@@ -70,7 +70,7 @@ class PasswordResetsControllerTest < ActionDispatch::IntegrationTest
     @user.destroy!
 
     put password_reset_path, params: {
-      token: token,
+      token:,
       password_digest: 'whatever'
     }
 
@@ -90,7 +90,7 @@ class PasswordResetsControllerTest < ActionDispatch::IntegrationTest
 
     travel 2.days do
       put password_reset_path, params: {
-        token: token,
+        token:,
         password_digest: 'whatever'
       }
 
@@ -104,7 +104,7 @@ class PasswordResetsControllerTest < ActionDispatch::IntegrationTest
     token = @user.generate_token_for(:password_reset)
 
     put password_reset_path, params: {
-      token: token,
+      token:,
       password_digest: 'newshinypasswd'
     }
 

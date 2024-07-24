@@ -1,6 +1,8 @@
+# frozen_string_literal: true
+
 # # frozen_string_literal: true
 
-require "test_helper"
+require 'test_helper'
 
 class UsersControllerTest < ActionDispatch::IntegrationTest
   setup do
@@ -50,7 +52,7 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
 
   test 'error if user does not exist' do
     create_session_for @user
-    get user_path(id: 1234567890), as: :json
+    get user_path(id: 1_234_567_890), as: :json
 
     assert_response :not_found
     assert_equal "Couldn't find User with 'id'=1234567890", response.body
@@ -60,7 +62,8 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
     post users_path, params: { username: 'fail' }, as: :json
 
     assert_response :bad_request
-    assert_equal "Validation failed: Password can't be blank, Email can't be blank, Email Please provide valid email address", response.body
+    assert_equal "Validation failed: Password can't be blank, Email can't be blank, Email Please provide valid email address",
+                 response.body
   end
 
   test 'error if user cannot be deleted' do

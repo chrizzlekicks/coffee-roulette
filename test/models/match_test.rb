@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require "test_helper"
+require 'test_helper'
 
 class MatchTest < ActiveSupport::TestCase
   test 'does not create a match without a date' do
@@ -33,9 +33,9 @@ class MatchTest < ActiveSupport::TestCase
 
   test 'sends out regular mails for every user in the user group' do
     stub_multiple_users 2
-  
+
     match = Match.create!(date: DateTime.now)
-  
+
     assert_emails 2 do
       match.create_user_matches(User.all)
     end
@@ -43,9 +43,9 @@ class MatchTest < ActiveSupport::TestCase
 
   test 'sends out 3 mails for three users' do
     stub_multiple_users 3
-  
+
     match = Match.create!(date: DateTime.now)
-  
+
     assert_emails 3 do
       match.create_user_matches(User.all)
     end

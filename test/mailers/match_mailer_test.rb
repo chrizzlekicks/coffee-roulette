@@ -16,7 +16,7 @@ class MatchMailerTest < ActionMailer::TestCase
     end
 
     assert_equal @user_one.email, email.to.first
-    assert_equal "You got matched!", email.subject
+    assert_equal 'You got matched!', email.subject
     assert_includes email.html_part.body.to_s, "Heyyyy #{@user_one.username}!"
     assert_includes email.html_part.body.to_s, "You got a new match with #{@user_two.email}!"
   end
