@@ -1,14 +1,15 @@
 const config = (body?: Record<string, unknown>) => {
     return {
         headers: {
-            "content-type": "application/json"
+            Accept: 'application/json',
+            'content-type': 'application/json'
         },
-        body: body ? JSON.stringify(body) : null
+        body: body ? JSON.stringify(body) : undefined
     }
 }
 
-const fetcher = <T>(url: string, bodyData?: Record<string, unknown>): Promise<T> => {
-    return fetch(url, config(bodyData)).then((response) => {
+const request = <TData = unknown>(url: string, bodyData?: Record<string, unknown>): Promise<TData> => {
+    return window.fetch(url, config(bodyData)).then((response) => {
         const data = response.json()
 
         if (response.ok) {
@@ -20,6 +21,6 @@ const fetcher = <T>(url: string, bodyData?: Record<string, unknown>): Promise<T>
 }
 
 const HttpClient = {
-    get: <T>(url: string) => fetcher<T>(url),
-    post: (url: string, bodyData: Record<string, unknown>) => fetcher(url, bodyData)
+    get: <TData = unknown>(url: string) => request<TData>(url),
+    post: <TData = unknown>(url: string, bodyData: Record<string, unknown>) => request<TData>(url, bodyData)
 }
