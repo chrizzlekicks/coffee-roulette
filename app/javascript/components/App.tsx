@@ -23,11 +23,11 @@ const App = () => {
           <h1 class='text-4xl'>Welcome to Coffee Roulette</h1>
         </header>
         <form class='form-control'>
-          <label class='label'>Username: </label>
+          <label for='username' class='label'>Username: </label>
           <input class='input input-bordered' name='username' type='text' onChange={(e) => setUsername(e.target.value)} value={username()} />
-          <label class='label'>E-Mail address: </label>
+          <label for='email' class='label'>E-Mail address: </label>
           <input class='input input-bordered' name='email' type='email' onChange={(e) => setEmail(e.target.value)} value={email()} />
-          <label class='label'>Password: </label>
+          <label for='password' class='label'>Password: </label>
           <input class='input input-bordered' name='password' type='password' onChange={(e) => setPassword(e.target.value)} value={password()} />
           <button class='btn btn-primary' type='submit' onClick={handleSubmit}>Submit</button>
         </form>
