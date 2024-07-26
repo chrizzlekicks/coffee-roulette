@@ -1,21 +1,21 @@
 import { createSignal } from 'solid-js';
 
 const App = () => {
-  const [username, setUsername] = createSignal('')
-  const [email, setEmail] = createSignal('')
-  const [password, setPassword] = createSignal('')
+  const [username, setUsername] = createSignal('');
+  const [email, setEmail] = createSignal('');
+  const [password, setPassword] = createSignal('');
 
   const handleSubmit = (e) => {
-    e.preventDefault()
+    e.preventDefault();
 
-    const formData = new FormData()
+    const formData = new FormData();
 
-    formData.append('username', username())
-    formData.append('email', email())
-    formData.append('password', password())
+    formData.append('username', username());
+    formData.append('email', email());
+    formData.append('password', password());
 
-    return fetch('/users', { method: 'POST', body: formData })
-  }
+    return fetch('/users', { method: 'POST', body: formData });
+  };
 
   return (
       <>

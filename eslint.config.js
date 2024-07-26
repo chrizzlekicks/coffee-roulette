@@ -2,6 +2,7 @@ import { FlatCompat } from '@eslint/eslintrc';
 import globals from 'globals';
 import path from 'path';
 import { fileURLToPath } from 'url';
+import tsParser from '@typescript-eslint/parser';
 
 const fileName = fileURLToPath(import.meta.url);
 const dirName = path.dirname(fileName);
@@ -15,25 +16,27 @@ export default [
   {
     ignores: ['public/**'],
   },
-  ...compat.extends('airbnb-base', 'plugin:solid/typescript'),
-  ...compat.plugins('solid'),
+  ...compat.extends('airbnb-base', 'plugin:@typescript-eslint/recommended', 'plugin:solid/typescript'),
+  ...compat.plugins('@typescript-eslint', 'import', 'solid'),
   {
     languageOptions: {
       globals: {
         ...globals.es2024,
       },
+      parser: tsParser,
       parserOptions: {
-        ecmaVersion: 'latest',
-        sourceType: 'module',
+        project: 'tsconfig.json',
       },
     },
     files: ['*.{js,ts}', 'app/javascript/**/*.{js,ts,tsx}'],
     rules: {
       'import/no-extraneous-dependencies': 'off',
+      'max-len': 'off',
     },
     settings: {
-      'import/parsers': {
-        espree: ['.js', '.ts', '.tsx'],
+      'import/resolvers': {
+        typescript: true,
+        node: true,
       },
     },
   },
