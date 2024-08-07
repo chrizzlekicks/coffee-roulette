@@ -4,6 +4,7 @@ const App = () => {
   const [username, setUsername] = createSignal('');
   const [email, setEmail] = createSignal('');
   const [password, setPassword] = createSignal('');
+  const [confirmPassword, setConfirmPassword] = createSignal('')
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -13,8 +14,14 @@ const App = () => {
     formData.append('username', username());
     formData.append('email', email());
     formData.append('password', password());
+    formData.append('password_confirmation', confirmPassword())
 
-    return fetch('/users', { method: 'POST', body: formData });
+    const headers = new Headers({
+      "X-CSRF-Token": document.querySelector('meta[name="csrf-token"]')['content'],
+      "Content-Type": "application/json"
+    })
+
+    return fetch('/users', { method: 'POST', headers, body: JSON.stringify({user: Object.fromEntries(formData)})});
   };
 
   return (
@@ -29,6 +36,8 @@ const App = () => {
           <input class='input input-bordered' name='email' type='email' onChange={(e) => setEmail(e.target.value)} value={email()} />
           <label for='password' class='label'>Password: </label>
           <input class='input input-bordered' name='password' type='password' onChange={(e) => setPassword(e.target.value)} value={password()} />
+          <label for='password_confirmation' class='label'>Confirm password: </label>
+          <input class='input input-bordered' name='password_confirmation' type='password' onChange={(e) => setConfirmPassword(e.target.value)} value={confirmPassword()} />
           <button class='btn btn-primary' type='submit' onClick={handleSubmit}>Submit</button>
         </form>
       </>

@@ -31,13 +31,13 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
 
   test 'create new user and return it' do
     assert_emails 1 do
-      post users_path, params: { username: 'test2', email: 'test2@test.de', password_digest: 'salam' }, as: :json
+      post users_path, params: { user:{ username: 'test2', email: 'test2@test.de', password: 'salam', password_confirmation: 'salam' }}, as: :json
       assert_response :created
     end
 
     assert_equal 'test2@test.de', JSON.parse(response.body)['email']
     assert_equal 'test2', JSON.parse(response.body)['username']
-    assert_equal 'salam', JSON.parse(response.body)['password_digest']
+    assert JSON.parse(response.body)['password_digest']
     assert JSON.parse(response.body)['active']
   end
 
