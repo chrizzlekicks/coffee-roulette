@@ -2,7 +2,7 @@ import { FlatCompat } from '@eslint/eslintrc';
 import globals from 'globals';
 import path from 'path';
 import { fileURLToPath } from 'url';
-import tsParser from '@typescript-eslint/parser';
+import * as tsParser from '@typescript-eslint/parser';
 
 const fileName = fileURLToPath(import.meta.url);
 const dirName = path.dirname(fileName);
@@ -34,7 +34,7 @@ export default [
       'max-len': 'off',
     },
     settings: {
-      'import/resolvers': {
+      'import/resolver': {
         typescript: true,
         node: true,
       },
