@@ -1,27 +1,36 @@
 import { createSignal } from 'solid-js';
+import httpClient from '../lib/httpClient.ts';
+import createPayload from "../lib/createPayload";
+
+interface User {
+    username?: string,
+    email?: string
+    password?: string
+    confirmPassword?: string
+}
+
+const initialPayload: User = {
+  username: '',
+  email: '',
+  password: '',
+  confirmPassword: '',
+};
 
 const App = () => {
-  const [username, setUsername] = createSignal('');
-  const [email, setEmail] = createSignal('');
-  const [password, setPassword] = createSignal('');
-  const [confirmPassword, setConfirmPassword] = createSignal('')
+  const [user, setUser] = createSignal(initialPayload);
+  const [message, setMessage] = createSignal();
 
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    const formData = new FormData();
+    const payload = createPayload(user(), 'user')
 
-    formData.append('username', username());
-    formData.append('email', email());
-    formData.append('password', password());
-    formData.append('password_confirmation', confirmPassword())
-
-    const headers = new Headers({
-      "X-CSRF-Token": document.querySelector('meta[name="csrf-token"]')['content'],
-      "Content-Type": "application/json"
-    })
-
-    return fetch('/users', { method: 'POST', headers, body: JSON.stringify({user: Object.fromEntries(formData)})});
+    return httpClient.post('/users', payload).then((data) => {
+      setMessage(`The user ${data.username} was created successfully`);
+      setUser(initialPayload);
+    }).catch((error: Error) => {
+      setMessage(error.message);
+    }).finally(() => setTimeout(() => setMessage(), 3000))
   };
 
   return (
@@ -29,15 +38,16 @@ const App = () => {
         <header class='flex justify-center p-2'>
           <h1 class='text-4xl'>Welcome to Coffee Roulette</h1>
         </header>
+        <div>{message()}</div>
         <form class='form-control'>
           <label for='username' class='label'>Username: </label>
-          <input class='input input-bordered' name='username' type='text' onChange={(e) => setUsername(e.target.value)} value={username()} />
+          <input class='input input-bordered' name='username' type='text' onChange={(e) => setUser({ ...user(), username: e.target.value })} value={user().username} />
           <label for='email' class='label'>E-Mail address: </label>
-          <input class='input input-bordered' name='email' type='email' onChange={(e) => setEmail(e.target.value)} value={email()} />
+          <input class='input input-bordered' name='email' type='email' onChange={(e) => setUser({ ...user(), email: e.target.value })} value={user().email} />
           <label for='password' class='label'>Password: </label>
-          <input class='input input-bordered' name='password' type='password' onChange={(e) => setPassword(e.target.value)} value={password()} />
+          <input class='input input-bordered' name='password' type='password' onChange={(e) => setUser({ ...user(), password: e.target.value })} value={user().password} />
           <label for='password_confirmation' class='label'>Confirm password: </label>
-          <input class='input input-bordered' name='password_confirmation' type='password' onChange={(e) => setConfirmPassword(e.target.value)} value={confirmPassword()} />
+          <input class='input input-bordered' name='password_confirmation' type='password' onChange={(e) => setUser({ ...user(), confirmPassword: e.target.value })} value={user().confirmPassword} />
           <button class='btn btn-primary' type='submit' onClick={handleSubmit}>Submit</button>
         </form>
       </>

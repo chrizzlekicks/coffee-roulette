@@ -25,7 +25,7 @@ class UsersController < ApplicationController
 
     render json: user, status: :created
   rescue ActiveRecord::RecordInvalid => e
-    render json: e.message, status: :bad_request
+    render json: { message: e.message }, status: :bad_request
   rescue StandardError
     head :unprocessable_entity
   end
