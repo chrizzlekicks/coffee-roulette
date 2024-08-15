@@ -55,7 +55,7 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
     get user_path(id: 1_234_567_890), as: :json
 
     assert_response :not_found
-    assert_equal "Couldn't find User with 'id'=1234567890", response.body
+    assert_equal "Couldn't find User with 'id'=1234567890", JSON.parse(response.body)['message']
   end
 
   test 'error if user cannot be created' do
@@ -63,7 +63,7 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
 
     assert_response :bad_request
     assert_equal "Validation failed: Password can't be blank, Email can't be blank, Email Please provide valid email address",
-                 response.body
+                 JSON.parse(response.body)['message']
   end
 
   test 'error if user cannot be deleted' do

@@ -13,7 +13,7 @@ class UsersController < ApplicationController
 
     render json: user, status: :ok
   rescue ActiveRecord::RecordNotFound => e
-    render json: e.message, status: :not_found
+    render json: { message: e.message }, status: :not_found
   rescue StandardError
     head :unprocessable_entity
   end
