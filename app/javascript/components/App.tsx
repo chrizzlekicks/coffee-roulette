@@ -23,9 +23,7 @@ const App = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    const payload = createPayload(user(), 'user')
-
-    return httpClient.post('/users', payload).then((data) => {
+    return httpClient.post('/users', createPayload(user(), 'user')).then((data) => {
       setMessage(`The user ${data.username} was created successfully`);
       setUser(initialPayload);
     }).catch((error: Error) => {
