@@ -29,7 +29,7 @@ gem 'puma', '>= 5.0'
 # gem 'stimulus-rails'
 
 # Build JSON APIs with ease [https://github.com/rails/jbuilder]
-gem 'jbuilder'
+# gem 'jbuilder'
 
 # Use Redis adapter to run Action Cable in production
 # gem 'redis', '>= 4.0.1'
@@ -49,7 +49,7 @@ gem 'tzinfo-data', platforms: %i[windows jruby]
 gem 'bootsnap', require: false
 
 # random id generator
-gem 'securerandom'
+# gem 'securerandom'
 
 # enable vite as module bundler for javascript frontends
 gem 'vite_rails'
