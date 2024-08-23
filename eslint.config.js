@@ -32,6 +32,16 @@ export default [
     rules: {
       'import/no-extraneous-dependencies': 'off',
       'max-len': 'off',
+      'import/extensions': [
+        'error',
+        'ignorePackages',
+        {
+          js: 'never',
+          jsx: 'never',
+          ts: 'never',
+          tsx: 'never',
+        },
+      ],
     },
     settings: {
       'import/resolver': {

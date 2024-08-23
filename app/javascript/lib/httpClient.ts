@@ -1,9 +1,9 @@
 const HTTP_METHODS = {
- GET: 'GET',
+  GET: 'GET',
   POST: 'POST',
   PUT: 'PUT',
-  DELETE: 'DELETE'
-} as const
+  DELETE: 'DELETE',
+} as const;
 
 type MethodType = typeof HTTP_METHODS[keyof typeof HTTP_METHODS]
 
@@ -25,10 +25,10 @@ const request = <TData = unknown>(url: string, bodyData?: Record<string, unknown
   const data = await response.json();
 
   if (!response.ok) {
-    return Promise.reject(data)
+    return Promise.reject(data);
   }
 
-  return data
+  return data;
 });
 
 const HttpClient = {
