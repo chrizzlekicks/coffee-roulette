@@ -7,9 +7,9 @@ const Home = () => (
         <div className="hero bg-base-200 min-h-screen">
             <div className="hero-content text-center">
                 <div className="max-w-md">
-                    <h1 className="text-5xl font-bold">Welcome at CoffeeRoulette</h1>
+                    <h1 className="text-5xl font-bold">Welcome to CoffeeRoulette</h1>
                     <p className="py-6">
-                        Do you wanna get matched with your colleagues for some nice coffee chats? Say no more, we got you covered. Sign up now and get matched on a daily basis by our matching algorithm. Free, easy, hassle-free.
+                        Do you want to get matched with your colleagues for some nice coffee chats? Say no more, we got you covered. Sign up now and get matched on a daily basis by our matching algorithm. Free, easy, hassle-free.
                     </p>
                     <A href="/signin" class="btn btn-primary">Get Started</A>
                 </div>
