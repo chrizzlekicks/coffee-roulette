@@ -3,16 +3,27 @@
 ENV['RAILS_ENV'] ||= 'test'
 require_relative '../config/environment'
 require 'rails/test_help'
+require 'capybara/rails'
+require 'capybara/minitest'
 
 module ActiveSupport
   class TestCase
     include ActionMailer::TestHelper
+    include Capybara::DSL
+    include Capybara::Minitest::Assertions
 
     # Run tests in parallel with specified workers
     parallelize(workers: :number_of_processors)
 
+    Capybara.current_driver = :selenium
+
     # Setup all fixtures in test/fixtures/*.yml for all tests in alphabetical order.
-    fixtures :all
+    # fixtures :all
+
+    teardown do
+      Capybara.reset_sessions!
+      Capybara.use_default_driver
+    end
 
     # Add more helper methods to be used by all tests here...
     def create_session_for(user)

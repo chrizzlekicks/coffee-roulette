@@ -1,14 +1,16 @@
-import { createSignal } from 'solid-js';
-import httpClient from '../lib/httpClient.ts';
-import createPayload from '../lib/createPayload.ts';
+import { createSignal, Show } from 'solid-js';
+import httpClient from '../lib/httpClient';
+import createPayload from '../lib/createPayload';
 import Navbar from "../components/Navbar";
 
 interface User {
-    username?: string,
-    email?: string
-    password?: string
-    confirmPassword?: string
+    username: string,
+    email: string
+    password: string
+    confirmPassword: string
 }
+
+
 
 const initialPayload: User = {
     username: '',
@@ -19,17 +21,17 @@ const initialPayload: User = {
 
 const Signin = () => {
     const [user, setUser] = createSignal(initialPayload);
-    const [message, setMessage] = createSignal();
+    const [message, setMessage] = createSignal('');
 
     const handleSubmit = (e) => {
         e.preventDefault();
 
-        return httpClient.post('/users', createPayload(user(), 'user')).then((data) => {
+        return httpClient.post('/users', createPayload(user(), 'user')).then((data: User) => {
             setMessage(`The user ${data.username} was created successfully`);
             setUser(initialPayload);
         }).catch((error: Error) => {
             setMessage(error.message);
-        }).finally(() => setTimeout(() => setMessage(), 3000));
+        }).finally(() => setTimeout(() => setMessage(''), 3000));
     };
 
     return (
@@ -48,6 +50,7 @@ const Signin = () => {
                             <input class='input input-bordered' name='password' type='password' onChange={(e) => setUser({ ...user(), password: e.target.value })} value={user().password} />
                             <label for='password_confirmation' class='label'>Confirm password: </label>
                             <input class='input input-bordered' name='password_confirmation' type='password' onChange={(e) => setUser({ ...user(), confirmPassword: e.target.value })} value={user().confirmPassword} />
+                            <Show when={message()}>{message()}</Show>
                             <button class='btn btn-primary mt-4' type='submit' onClick={handleSubmit}>Submit</button>
                         </form>
                     </div>
