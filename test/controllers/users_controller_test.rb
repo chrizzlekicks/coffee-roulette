@@ -1,10 +1,8 @@
 # frozen_string_literal: true
 
-# # frozen_string_literal: true
-
 require 'test_helper'
 
-class UsersControllerTest < ActionDispatch::IntegrationTest
+class UsersControllerTest < ActionController::TestCase
   setup do
     @user = User.create!(username: 'test', email: 'test@test.de', password: 'randompasswd')
   end
