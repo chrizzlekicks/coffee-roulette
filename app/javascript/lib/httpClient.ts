@@ -3,19 +3,17 @@ const HTTP_METHODS = {
   POST: 'POST',
   PUT: 'PUT',
   DELETE: 'DELETE',
-} as const;
-
-type MethodType = typeof HTTP_METHODS[keyof typeof HTTP_METHODS]
+};
 
 type HttpRequestOptions = RequestInit & {
     headers: HeadersInit
 }
 
-const optionsConfig = (body?: Record<string, unknown>, method?: MethodType): HttpRequestOptions => ({
+const optionsConfig = (body?: Record<string, unknown>, method?: string): HttpRequestOptions => ({
   headers: {
     Accept: 'application/json',
     'content-type': 'application/json',
-    'X-CSRF-Token': document.querySelector('meta[name="csrf-token"]').content,
+    'X-CSRF-Token': document.querySelector<HTMLMetaElement>('meta[name="csrf-token"]').content,
   },
   method: method ?? HTTP_METHODS.GET,
   body: body ? JSON.stringify(body) : undefined,
