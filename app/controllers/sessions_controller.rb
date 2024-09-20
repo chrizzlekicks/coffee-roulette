@@ -2,7 +2,7 @@
 
 class SessionsController < ApplicationController
   def create
-    user = User.find_by!(email: params[:email])
+    user = User.find_by(username: params[:username])
 
     return render json: 'Email or password seem to be wrong or non existent', status: :bad_request if user.blank?
 

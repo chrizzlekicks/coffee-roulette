@@ -4,7 +4,7 @@ require 'test_helper'
 
 class PasswordResetsControllerTest < ActionDispatch::IntegrationTest
   setup do
-    @user = User.create!(username: 'test', email: 'test@test.de', password: 'randompasswd', password_confirmation: 'randompasswd')
+    @user = User.create!(username: 'test', email: 'test@test.de', password: 'randompasswd')
   end
 
   test 'throws bad request if no email is provided in params' do
