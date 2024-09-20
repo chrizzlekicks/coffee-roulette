@@ -2,7 +2,9 @@
 
 require 'test_helper'
 
-class SignupUserTest < ActionDispatch::IntegrationTest
+class SignupUserTest < JavascriptIntegrationTest
+  setup { ActionController::Base.allow_forgery_protection = true }
+
   test 'signup' do
     visit '/'
 
