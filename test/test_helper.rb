@@ -9,21 +9,12 @@ require 'capybara/minitest'
 module ActiveSupport
   class TestCase
     include ActionMailer::TestHelper
-    include Capybara::DSL
-    include Capybara::Minitest::Assertions
 
     # Run tests in parallel with specified workers
     parallelize(workers: :number_of_processors)
 
-    Capybara.current_driver = :selenium
-
     # Setup all fixtures in test/fixtures/*.yml for all tests in alphabetical order.
     # fixtures :all
-
-    teardown do
-      Capybara.reset_sessions!
-      Capybara.use_default_driver
-    end
 
     # Add more helper methods to be used by all tests here...
     def create_session_for(user)
@@ -41,5 +32,22 @@ module ActiveSupport
     def stub_multiple_users(count)
       count.times { |i| User.create!(username: "test#{i}", email: "test#{i}@test.de", password: "passwd#{i}") }
     end
+  end
+end
+
+class JavascriptIntegrationTest < ActionDispatch::IntegrationTest
+  include Capybara::DSL
+  include Capybara::Minitest::Assertions
+
+  Capybara.current_driver = :selenium
+
+  setup do
+    ActionController::Base.allow_forgery_protection = true
+  end
+
+  teardown do
+    Capybara.reset_sessions!
+    Capybara.use_default_driver
+    ActionController::Base.allow_forgery_protection = false
   end
 end
