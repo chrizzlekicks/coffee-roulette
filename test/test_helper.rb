@@ -47,7 +47,6 @@ class JavascriptIntegrationTest < ActionDispatch::IntegrationTest
 
   teardown do
     Capybara.reset_sessions!
-    Capybara.use_default_driver
     ActionController::Base.allow_forgery_protection = false
   end
 end
