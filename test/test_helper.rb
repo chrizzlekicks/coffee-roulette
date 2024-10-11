@@ -18,7 +18,7 @@ module ActiveSupport
 
     # Add more helper methods to be used by all tests here...
     def create_session_for(user)
-      post '/login', params: { username: user.username, password: user.password }, as: :json
+      post '/login', params: { user: { username: user.username, password: user.password } }, as: :json
       assert_response :created
       assert_equal 'Session created', response.body
     end

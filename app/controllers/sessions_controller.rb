@@ -2,12 +2,14 @@
 
 class SessionsController < ApplicationController
   def create
-    user = User.find_by(username: params[:username])
+    user = User.find_by(username: user_params[:username])
 
-    return render json: 'Email or password seem to be wrong or non existent', status: :bad_request if user.blank?
+    if user.blank?
+      return render json: { message: 'Username or password seem to be wrong or non existent' }, status: :bad_request
+    end
 
-    unless user.authenticate(params[:password])
-      return render json: 'Email or password seem to be wrong or non existent',
+    unless user.authenticate(user_params[:password])
+      return render json: { message: 'Username or password seem to be wrong or non existent' },
                     status: :bad_request
     end
 
@@ -17,7 +19,7 @@ class SessionsController < ApplicationController
   end
 
   def destroy
-    return render json: 'User is not logged in', status: :unauthorized unless is_logged_in?
+    return render json: { message: 'User is not logged in' }, status: :unauthorized unless is_logged_in?
 
     log_out
   rescue StandardError
@@ -26,9 +28,13 @@ class SessionsController < ApplicationController
 
   private
 
+  def user_params
+    params.require(:user).permit(:username, :password)
+  end
+
   def log_in(user)
     session[:user_id] = user.id
 
-    render json: 'Session created', status: :created
+    render json: { message: 'Session created' }, status: :created
   end
 end
