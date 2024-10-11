@@ -49,6 +49,21 @@ class SignupUserTest < JavascriptIntegrationTest
     assert_text 'Session created'
   end
 
+  test 'login fails due to incorrect user' do
+    stub_multiple_users(1)
+
+    go_to_signin
+
+    find_field(id: 'login').click
+
+    fill_in('username', with: 'test1')
+    fill_in('password', with: 'passwd1')
+
+    click_on 'Submit'
+
+    assert_text 'Username or password seem to be wrong or non existent'
+  end
+
   private
 
   def go_to_signin
