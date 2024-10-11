@@ -31,6 +31,6 @@ class SessionsControllerTest < ActionDispatch::IntegrationTest
     delete logout_path
 
     assert_response :unauthorized
-    assert_equal 'User is not logged in', response.body
+    assert_equal 'User is not logged in', JSON.parse(response.body)['message']
   end
 end

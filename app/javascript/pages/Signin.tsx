@@ -9,6 +9,7 @@ const Signin = () => {
 			<section class="flex justify-center items-center min-h-screen bg-base-200">
 				<div role="tablist" class="tabs tabs-lifted">
 					<input
+						id='register'
 						type="radio"
 						name="my_tabs_2"
 						role="tab"
@@ -24,6 +25,7 @@ const Signin = () => {
 						<Signup />
 					</div>
 					<input
+						id='login'
 						type="radio"
 						name="my_tabs_2"
 						role="tab"

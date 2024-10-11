@@ -34,6 +34,21 @@ class SignupUserTest < JavascriptIntegrationTest
     assert_text 'Validation failed: Email has already been taken'
   end
 
+  test 'login happy path' do
+    stub_multiple_users(1)
+
+    go_to_signin
+
+    find_field(id: 'login').click
+
+    fill_in('username', with: 'test0')
+    fill_in('password', with: 'passwd0')
+
+    click_on 'Submit'
+
+    assert_text 'Session created'
+  end
+
   private
 
   def go_to_signin
@@ -41,6 +56,6 @@ class SignupUserTest < JavascriptIntegrationTest
 
     click_on 'Get Started'
 
-    assert_text 'Signup with us'
+    assert_text 'Register now!'
   end
 end

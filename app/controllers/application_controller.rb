@@ -17,6 +17,6 @@ class ApplicationController < ActionController::Base
     session.delete(:user_id)
     @current_user = nil
 
-    render json: 'Session closed', status: :ok
+    render json: { message: 'Session closed' }, status: :ok
   end
 end
