@@ -1,4 +1,5 @@
 import { createSignal, Show } from "solid-js";
+import { useNavigate} from "@solidjs/router";
 import httpClient from "../lib/httpClient";
 import createPayload from "../lib/createPayload";
 
@@ -9,6 +10,7 @@ const initialPayload: User = {
 const Login = () => {
 	const [user, setUser] = createSignal(initialPayload);
 	const [message, setMessage] = createSignal("");
+	const navigate  = useNavigate()
 
 	const handleSubmit = (e) => {
 		e.preventDefault();
@@ -18,11 +20,14 @@ const Login = () => {
 			.then((data: { message: string }) => {
 				setMessage(data.message);
 				setUser(initialPayload);
+				navigate('/main', {replace: true})
 			})
 			.catch((error: Error) => {
 				setMessage(error.message);
 			})
-			.finally(() => setTimeout(() => setMessage(""), 3000));
+			.finally(() => {
+				setTimeout(() => setMessage(""), 3000)
+			});
 	};
 
 	return (
