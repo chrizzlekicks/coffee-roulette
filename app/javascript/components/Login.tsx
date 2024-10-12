@@ -17,8 +17,7 @@ const Login = () => {
 
 		return httpClient
 			.post("/login", createPayload(user(), "user"))
-			.then((data: { message: string }) => {
-				setMessage(data.message);
+			.then((data: { username: string, message: string }) => {
 				setUser(initialPayload);
 				navigate('/main', {replace: true})
 			})

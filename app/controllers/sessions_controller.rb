@@ -35,6 +35,6 @@ class SessionsController < ApplicationController
   def log_in(user)
     session[:user_id] = user.id
 
-    render json: { message: 'Session created' }, status: :created
+    render json: { username: user.username, message: 'Session created' }, status: :created
   end
 end
