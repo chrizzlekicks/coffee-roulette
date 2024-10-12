@@ -46,7 +46,7 @@ class SignupUserTest < JavascriptIntegrationTest
 
     click_on 'Submit'
 
-    assert_text 'Session created'
+    assert_text 'Welcome'
   end
 
   test 'login fails due to incorrect user' do

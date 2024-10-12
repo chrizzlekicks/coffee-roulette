@@ -1,14 +1,12 @@
 import Navbar from "../components/Navbar";
+import Layout from "../components/Layout";
 
 const Main = () => {
-    return (
-        <>
-        <Navbar/>
-            <section class="flex justify-center items-center min-h-screen bg-base-200">
-                <h1>Welcome</h1>
-            </section>
-        </>
-)
-}
+	return (
+		<Layout>
+			<h1>Welcome</h1>
+		</Layout>
+	);
+};
 
-export default Main
+export default Main;
