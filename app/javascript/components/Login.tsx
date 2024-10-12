@@ -2,12 +2,14 @@ import { createSignal, Show } from "solid-js";
 import { useNavigate } from "@solidjs/router";
 import httpClient from "../lib/httpClient";
 import createPayload from "../lib/createPayload";
+import { useAuthContext } from "../contexts/AuthContext";
 
 const initialPayload: User = {
 	password: "",
 	username: "",
 };
 const Login = () => {
+	const { setState } = useAuthContext();
 	const [user, setUser] = createSignal(initialPayload);
 	const [message, setMessage] = createSignal("");
 	const navigate = useNavigate();
@@ -18,6 +20,11 @@ const Login = () => {
 		return httpClient
 			.post("/login", createPayload(user(), "user"))
 			.then((data: { username: string; message: string }) => {
+				setState((prevState: UserStatus) => ({
+					...prevState,
+					username: data.username,
+					isLoggedIn: true,
+				}));
 				setUser(initialPayload);
 				navigate("/main", { replace: true });
 			})
