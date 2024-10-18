@@ -14,8 +14,7 @@ const Signin = () => {
 					role="tab"
 					class="tab"
 					aria-label="Signup"
-					// @ts-ignore
-					checked="checked"
+					checked
 				/>
 				<div
 					role="tabpanel"
