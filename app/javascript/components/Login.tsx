@@ -25,7 +25,7 @@ const Login = () => {
 					username: data.username,
 					isLoggedIn: true,
 				}));
-				localStorage.setItem('user', data.username)
+				sessionStorage.setItem('user', data.username)
 				setUser(initialPayload);
 				navigate("/main", { replace: true });
 			})

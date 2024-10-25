@@ -18,7 +18,7 @@ const AuthContext = createContext<AuthContextValues>({
 });
 
 const getInitialState = () => {
-	const user = localStorage.getItem('user')
+	const user = sessionStorage.getItem('user')
 
 	return user ? { username: user, isLoggedIn: true } : initialUserState
 }

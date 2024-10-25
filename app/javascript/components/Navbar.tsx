@@ -12,7 +12,7 @@ const Navbar = () => {
 
 		return httpClient.delete('/logout').then(() => {
 			setState({ username: undefined, isLoggedIn: false })
-			localStorage.clear()
+			sessionStorage.clear()
 			navigate('/')
 		})
 	}
