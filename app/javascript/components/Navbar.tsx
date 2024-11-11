@@ -1,6 +1,6 @@
-import {A, useNavigate} from "@solidjs/router";
-import { useAuthContext } from "../contexts/AuthContext";
+import { A, useNavigate } from "@solidjs/router";
 import { Show } from "solid-js";
+import { useAuthContext } from "../contexts/AuthContext";
 import httpClient from "../lib/httpClient";
 
 const Navbar = () => {
@@ -8,14 +8,14 @@ const Navbar = () => {
 	const navigate = useNavigate();
 
 	const handleLogout = (e) => {
-		e.preventDefault()
+		e.preventDefault();
 
-		return httpClient.delete('/logout').then(() => {
-			setState({ username: undefined, isLoggedIn: false })
-			sessionStorage.clear()
-			navigate('/')
-		})
-	}
+		return httpClient.delete("/logout").then(() => {
+			setState({ username: undefined, isLoggedIn: false });
+			sessionStorage.clear();
+			navigate("/");
+		});
+	};
 
 	return (
 		<div class="navbar bg-base-100 shadow-lg">
@@ -34,7 +34,9 @@ const Navbar = () => {
 							</A>
 						}
 					>
-						<button class="btn" onClick={handleLogout}>Logout</button>
+						<button class="btn" onClick={handleLogout}>
+							Logout
+						</button>
 					</Show>
 				</div>
 			</div>

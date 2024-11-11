@@ -2,7 +2,7 @@ import { Route, Router } from "@solidjs/router";
 import Home from "../pages/Home";
 import Signin from "../pages/Signin";
 import Main from "../pages/Main";
-import Error from "./Error"
+import Error from "./Error";
 import { AuthProvider } from "../contexts/AuthContext";
 import AuthGuard from "./AuthGuard";
 

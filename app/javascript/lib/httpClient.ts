@@ -43,7 +43,7 @@ const HttpClient = {
 	get: <TData = unknown>(url: string) => request<TData>(url),
 	post: <TData = unknown>(url: string, bodyData: Record<string, unknown>) =>
 		request<TData>(url, bodyData, HTTP_METHODS.POST),
-	delete: (url: string) => request(url, undefined, HTTP_METHODS.DELETE)
+	delete: (url: string) => request(url, undefined, HTTP_METHODS.DELETE),
 };
 
 export default HttpClient;

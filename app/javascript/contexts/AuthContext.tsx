@@ -1,6 +1,6 @@
 import { createContext, useContext, JSXElement } from "solid-js";
 import { createStore } from "solid-js/store";
-import {createEffect} from "solid-js/types/server";
+import { createEffect } from "solid-js/types/server";
 
 type AuthContextValues = {
 	state: UserStatus;
@@ -18,10 +18,10 @@ const AuthContext = createContext<AuthContextValues>({
 });
 
 const getInitialState = () => {
-	const user = sessionStorage.getItem('user')
+	const user = sessionStorage.getItem("user");
 
-	return user ? { username: user, isLoggedIn: true } : initialUserState
-}
+	return user ? { username: user, isLoggedIn: true } : initialUserState;
+};
 
 export function AuthProvider(props: { children: JSXElement }) {
 	const [state, setState] = createStore(getInitialState());
