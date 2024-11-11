@@ -4,13 +4,17 @@ import Signin from "../pages/Signin";
 import Main from "../pages/Main";
 import Error from "./Error"
 import { AuthProvider } from "../contexts/AuthContext";
+import AuthGuard from "./AuthGuard";
 
 const App = () => (
 	<AuthProvider>
 		<Router>
 			<Route path="/" component={Home} />
 			<Route path="/signin" component={Signin} />
-			<Route path="/main" component={Main} />
+			{/* Private routes */}
+			<Route path="/" component={AuthGuard}>
+				<Route path="/main" component={Main} />
+			</Route>
 			<Route path="*" component={Error} />
 		</Router>
 	</AuthProvider>
