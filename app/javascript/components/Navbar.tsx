@@ -20,7 +20,7 @@ const Navbar = () => {
 	return (
 		<div class="navbar bg-base-100 shadow-lg">
 			<div class="flex-1">
-				<A class="btn btn-ghost text-xl" href="/">
+				<A class="btn btn-ghost text-xl" href={state.isLoggedIn ? '/main' : '/'}>
 					CoffeeRoulette
 				</A>
 			</div>

@@ -48,6 +48,8 @@ class SignupUserTest < JavascriptIntegrationTest
 
     assert_text 'Welcome'
     assert_button 'Logout'
+
+    assert_selector "a[href$='/main']", text: 'CoffeeRoulette'
   end
 
   test 'login fails due to incorrect user' do
