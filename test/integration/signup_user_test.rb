@@ -14,9 +14,9 @@ class SignupUserTest < JavascriptIntegrationTest
 
     assert_difference 'User.count', 1 do
       click_on 'Submit'
-    end
 
-    assert_text 'The user johndoe was created successfully'
+      assert_text 'The user johndoe was created successfully'
+    end
   end
 
   test 'signup fails' do

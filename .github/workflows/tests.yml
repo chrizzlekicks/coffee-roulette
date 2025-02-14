@@ -19,5 +19,7 @@ jobs:
       - name: Run migrations
         run: rails db:create && rails db:migrate
       - name: Run tests
+        env:
+          CI: true
         run: bundle exec rake
 

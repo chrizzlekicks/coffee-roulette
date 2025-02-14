@@ -44,7 +44,7 @@ class JavascriptIntegrationTest < ActionDispatch::IntegrationTest
   include Capybara::DSL
   include Capybara::Minitest::Assertions
 
-  Capybara.current_driver = :selenium
+  Capybara.current_driver = ENV['CI'] == 'true' ? :selenium_chrome_headless : :selenium_chrome
 
   setup do
     ActionController::Base.allow_forgery_protection = true
