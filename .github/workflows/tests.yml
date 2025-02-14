@@ -9,7 +9,9 @@ jobs:
       - name: List files in the repository
         run: |
           ls ${{ github.workspace }}
-      - uses: ruby/setup-ruby@ec02537da5712d66d4d50a0f33b7eb52773b5ed1
+      - uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: .ruby-version
       - run: bundle install
       - name: Start containers
         run: docker compose up -d
