@@ -49,8 +49,4 @@ class UsersController < ApplicationController
   def user_params
     params.require(:user).permit(:email, :username, :password, :password_confirmation)
   end
-
-  def verify_authenticated
-    head :unauthorized unless is_logged_in?
-  end
 end

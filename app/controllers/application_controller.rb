@@ -19,4 +19,8 @@ class ApplicationController < ActionController::Base
 
     render json: { message: 'Session closed' }, status: :ok
   end
+
+  def verify_authenticated
+    head :unauthorized unless is_logged_in?
+  end
 end
