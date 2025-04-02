@@ -13,12 +13,3 @@ class Match < ApplicationRecord
     end
   end
 end
-
-# select A.match_id, B.user_id, email, date
-# from user_matches A
-# join user_matches B on A.match_id = B.match_id
-# join users on B.user_id = users.id
-# join matches on A.match_id = matches.id
-# where A.user_id = '57ebe8c5-f61b-4d1c-93c2-898fe1260ab9';
-
-# UserMatch.find_by(user_id: user_id).match.users.where.not(id: user_id)

@@ -25,4 +25,15 @@ class MatchesControllerTest < ActionDispatch::IntegrationTest
     assert_equal 1, JSON.parse(response.body).length
     assert_includes JSON.parse(response.body).first['users'].pluck('id'), @user.id
   end
+
+  test 'returns all matches for current user with multiple matches' do
+    stub_multiple_users 8
+    4.times { UserMatchingJob.new.perform_now }
+
+    get matches_path, as: :json
+
+    assert_response :ok
+    assert_equal 4, JSON.parse(response.body).length
+    assert(JSON.parse(response.body).all? { |match| match['users'].pluck('id').include?(@user.id) })
+  end
 end
