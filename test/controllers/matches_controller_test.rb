@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require 'test_helper'
+
 class MatchesControllerTest < ActionDispatch::IntegrationTest
   setup do
     @user = User.create!(username: 'test', email: 'test@test.de', password: 'randompasswd')
@@ -32,8 +33,9 @@ class MatchesControllerTest < ActionDispatch::IntegrationTest
 
     get matches_path, as: :json
 
+    parsed_body = JSON.parse(response.body)
     assert_response :ok
-    assert_equal 4, JSON.parse(response.body).length
-    assert(JSON.parse(response.body).all? { |match| match['users'].pluck('id').include?(@user.id) })
+    assert_equal 4, parsed_body.length
+    assert_equal Match.joins(:user_matches).where(user_matches: { user_id: @user.id }).pluck(:id).sort, parsed_body.pluck('id').sort
   end
 end
