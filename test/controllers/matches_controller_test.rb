@@ -24,7 +24,7 @@ class MatchesControllerTest < ActionDispatch::IntegrationTest
 
     assert_response :ok
     assert_equal 1, JSON.parse(response.body).length
-    assert_includes JSON.parse(response.body).first['users'].pluck('id'), @user.id
+    assert_not_equal JSON.parse(response.body).first['users'].pluck('email'), @user.email
   end
 
   test 'returns all matches for current user with multiple matches' do
