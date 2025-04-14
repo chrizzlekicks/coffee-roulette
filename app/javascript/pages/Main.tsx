@@ -35,7 +35,7 @@ const Main = () => {
 												clip-rule="evenodd"/>
 										</svg>
 									</div>
-									<div class="timeline-end timeline-box">{match.users.map((user) => user.username)}</div>
+									<div class="timeline-end timeline-box">{match.users.map((user) => user.username).join(' & ')}</div>
 									<hr class="bg-primary"/>
 								</li>}
 						</For>
