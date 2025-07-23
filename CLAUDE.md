@@ -5,7 +5,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 ## Development Commands
 
 ### Rails Backend
-- **Start server**: `bin/rails server` or `bin/dev` (includes Vite)
+- **Start server**: `bin/rails server`
 - **Run tests**: `bin/rails test` (runs all tests in parallel)
 - **Run single test**: `bin/rails test test/path/to/test_file.rb`
 - **Run system tests**: `bin/rails test:system`
@@ -16,7 +16,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 ### Frontend (SolidJS + Vite)
 - **Build assets**: `npm run build` (via Vite)
 - **Lint JavaScript**: `npm run lint`
-- **Development with hot reload**: `bin/dev` (starts both Rails and Vite)
+- **Development with hot reload**: `bin/vite dev` (for Vite development server)
 
 ### Running Background Jobs
 - **Match users**: `UserMatchingJob.perform_now` (in Rails console)
