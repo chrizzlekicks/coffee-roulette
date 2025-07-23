@@ -49,10 +49,11 @@ const Login = () => {
             class="input input-bordered"
             name="username"
             type="text"
-            onChange={(e) => setUser({
-              ...user(),
-              username: e.target.value,
-            })
+            onChange={(e) =>
+              setUser({
+                ...user(),
+                username: e.target.value,
+              })
             }
             value={user().username}
           />
@@ -63,19 +64,16 @@ const Login = () => {
             class="input input-bordered"
             name="password"
             type="password"
-            onChange={(e) => setUser({
-              ...user(),
-              password: e.target.value,
-            })
+            onChange={(e) =>
+              setUser({
+                ...user(),
+                password: e.target.value,
+              })
             }
             value={user().password}
           />
           <Show when={message()}>{message()}</Show>
-          <button
-            class="btn btn-primary mt-4"
-            type="submit"
-            onClick={handleSubmit}
-          >
+          <button class="btn btn-primary mt-4" type="submit" onClick={handleSubmit}>
             Submit
           </button>
         </form>

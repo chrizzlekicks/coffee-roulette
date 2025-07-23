@@ -9,3 +9,15 @@ interface NewUser extends User {
 }
 
 type UserStatus = Pick<User, 'username'> & { isLoggedIn: boolean };
+
+interface MatchUser {
+  id: string;
+  username: string;
+  email: string;
+}
+
+interface Match {
+  id: string;
+  date: string; // ISO datetime string
+  users: MatchUser[];
+}

@@ -1,6 +1,5 @@
 import { createContext, useContext, JSXElement } from 'solid-js';
 import { createStore } from 'solid-js/store';
-import { createEffect } from 'solid-js/types/server';
 
 type AuthContextValues = {
   state: UserStatus;
@@ -26,11 +25,7 @@ const getInitialState = () => {
 export function AuthProvider(props: { children: JSXElement }) {
   const [state, setState] = createStore(getInitialState());
 
-  return (
-    <AuthContext.Provider value={{ state, setState }}>
-      {props.children}
-    </AuthContext.Provider>
-  );
+  return <AuthContext.Provider value={{ state, setState }}>{props.children}</AuthContext.Provider>;
 }
 
 export function useAuthContext() {

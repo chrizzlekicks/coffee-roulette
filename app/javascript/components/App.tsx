@@ -5,7 +5,6 @@ import Main from '../pages/Main';
 import Error from './Error';
 import { AuthProvider } from '../contexts/AuthContext';
 import AuthGuard from './AuthGuard';
-import httpClient from '../lib/httpClient';
 
 const App = () => (
   <AuthProvider>
