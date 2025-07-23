@@ -1,8 +1,8 @@
 const createPayload = <T extends Record<keyof T, unknown>>(
-	data: T,
-	keyForParams: string,
+  data: T,
+  keyForParams: string,
 ) => ({
-	[keyForParams]: data,
-});
+    [keyForParams]: data,
+  });
 
 export default createPayload;

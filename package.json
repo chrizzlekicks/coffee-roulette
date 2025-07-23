@@ -1,6 +1,8 @@
 {
   "scripts": {
-    "lint": "eslint ."
+    "lint": "eslint .",
+    "format": "biome format --write .",
+    "format:check": "biome format --check ."
   },
   "dependencies": {
     "@solidjs/router": "^0.14.3",

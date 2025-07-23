@@ -23,3 +23,18 @@ jobs:
           CI: true
         run: bundle exec rake
 
+  ESLint:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository code
+        uses: actions/checkout@v4
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+      - run: npm ci
+      - name: Run ESLint
+        run: npm run lint
+      - name: Check Biome formatting
+        run: npm run format:check
+
