@@ -2,10 +2,7 @@
 import daisyui from 'daisyui';
 
 export default {
-  content: [
-    './app/javascript/**/*.{js,ts,jsx,tsx}',
-    './app/views/**/*',
-  ],
+  content: ['./app/javascript/**/*.{js,ts,jsx,tsx}', './app/views/**/*'],
   daisyui: {
     themes: [
       {
@@ -23,7 +20,5 @@ export default {
       },
     ],
   },
-  plugins: [
-    daisyui,
-  ],
+  plugins: [daisyui],
 };

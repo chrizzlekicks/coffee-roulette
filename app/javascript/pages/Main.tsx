@@ -1,4 +1,6 @@
-import { createResource, Show, Switch, Match as SolidMatch, For, createSignal } from 'solid-js';
+import {
+  createResource, Show, Switch, Match as SolidMatch, For, createSignal,
+} from 'solid-js';
 import Layout from '../components/Layout';
 import httpClient from '../lib/httpClient';
 
@@ -21,28 +23,30 @@ const formatDate = (dateString: string) => {
   });
 };
 
-const formatTime = (dateString: string) =>
+const formatTime = (dateString: string) => (
   new Date(dateString).toLocaleTimeString('en-US', {
     hour: 'numeric',
     minute: '2-digit',
     hour12: true,
-  });
+  })
+);
 
-const getInitials = (username: string) =>
+const getInitials = (username: string) => (
   username
     .split('_')
     .map((part) => part[0])
     .join('')
     .toUpperCase()
-    .slice(0, 2);
+    .slice(0, 2)
+);
 
 const TimelineItem = (props: { match: Match }) => {
   const [isExpanded, setIsExpanded] = createSignal(false);
-  const isRecent = new Date().getTime() - new Date(props.match.date).getTime() < 7 * 24 * 60 * 60 * 1000;
+  const isRecent = () => new Date().getTime() - new Date(props.match.date).getTime() < 7 * 24 * 60 * 60 * 1000;
 
   return (
     <li class="group">
-      <hr class={`${isRecent ? 'bg-primary' : 'bg-gray-300'} transition-all duration-300`} />
+      <hr class={`${isRecent() ? 'bg-primary' : 'bg-gray-300'} transition-all duration-300`} />
       <div class="timeline-start">
         <div class="text-right">
           <div class="text-sm font-semibold text-base-content">{formatDate(props.match.date)}</div>
@@ -51,7 +55,7 @@ const TimelineItem = (props: { match: Match }) => {
       </div>
       <div class="timeline-middle">
         <div
-          class={`w-8 h-8 rounded-full flex items-center justify-center ${isRecent ? 'bg-primary text-primary-content' : 'bg-gray-300 text-gray-600'} shadow-lg transition-all duration-300 group-hover:scale-110`}
+          class={`w-8 h-8 rounded-full flex items-center justify-center ${isRecent() ? 'bg-primary text-primary-content' : 'bg-gray-300 text-gray-600'} shadow-lg transition-all duration-300 group-hover:scale-110`}
         >
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-4 h-4">
             <path d="M2.879 7.121A3 3 0 007.5 6.5a2.997 2.997 0 005 0 3 3 0 004.621.621 3 3 0 000 5.758A3 3 0 0012.5 13.5a2.997 2.997 0 00-5 0 3 3 0 00-4.621-.621 3 3 0 000-5.758z" />
@@ -130,7 +134,7 @@ const TimelineItem = (props: { match: Match }) => {
           </div>
         </div>
       </div>
-      <hr class={`${isRecent ? 'bg-primary' : 'bg-gray-300'} transition-all duration-300`} />
+      <hr class={`${isRecent() ? 'bg-primary' : 'bg-gray-300'} transition-all duration-300`} />
     </li>
   );
 };
@@ -210,7 +214,11 @@ const Main = () => {
             </div>
 
             <ul class="timeline timeline-vertical timeline-compact">
-              <For each={matches()?.slice().sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())}>
+              <For
+                each={matches()
+                  ?.slice()
+                  .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())}
+              >
                 {(match) => <TimelineItem match={match} />}
               </For>
             </ul>
