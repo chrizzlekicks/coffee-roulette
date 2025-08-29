@@ -9,9 +9,15 @@ class UsersController < ApplicationController
   end
 
   def show
-    user = User.find(params[:id])
+    user = current_user
 
-    render json: user, status: :ok
+    render json: {
+      id: user.id,
+      username: user.username,
+      email: user.email,
+      active: user.active,
+      created_at: user.created_at
+    }, status: :ok
   rescue ActiveRecord::RecordNotFound => e
     render json: { message: e.message }, status: :not_found
   rescue StandardError

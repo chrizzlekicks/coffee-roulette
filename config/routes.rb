@@ -2,7 +2,8 @@
 
 Rails.application.routes.draw do
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
-  resources :users, only: %i[index create show]
+  resources :users, only: %i[index create]
+  get 'profile' => 'users#show'
   resources :matches, only: %i[index]
 
   put 'users' => 'users#update'

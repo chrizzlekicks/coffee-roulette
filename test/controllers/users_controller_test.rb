@@ -20,13 +20,18 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
     assert JSON.parse(response.body).first['active']
   end
 
-  test 'return user by id' do
+  test 'return current user profile' do
     create_session_for @user
 
-    get user_path(@user.id)
+    get profile_path, as: :json
 
     assert_response :ok
-    assert_equal @user.id, JSON.parse(response.body)['id']
+    response_body = JSON.parse(response.body)
+    assert_equal @user.id, response_body['id']
+    assert_equal @user.username, response_body['username']
+    assert_equal @user.email, response_body['email']
+    assert_equal @user.active, response_body['active']
+    assert_nil response_body['password_digest']
   end
 
   test 'create new user and return it' do
@@ -51,11 +56,9 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
   end
 
   test 'error if user does not exist' do
-    create_session_for @user
-    get user_path(id: 1_234_567_890), as: :json
+    get profile_path, as: :json
 
-    assert_response :not_found
-    assert_equal "Couldn't find User with 'id'=1234567890", JSON.parse(response.body)['message']
+    assert_response :unauthorized
   end
 
   test 'error if user cannot be created' do
