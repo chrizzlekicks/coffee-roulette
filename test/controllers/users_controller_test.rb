@@ -36,7 +36,8 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
 
   test 'create new user and return it' do
     assert_emails 1 do
-      post users_path, params: { user:{ username: 'test2', email: 'test2@test.de', password: 'salam', password_confirmation: 'salam' }}, as: :json
+      post users_path,
+           params: { user: { username: 'test2', email: 'test2@test.de', password: 'salam', password_confirmation: 'salam' } }, as: :json
       assert_response :created
     end
 
@@ -82,6 +83,16 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
 
     assert_response :ok
     assert_not @user.reload[:active]
+  end
+
+  test 'update email and username of the user' do
+    create_session_for @user
+    put users_path, params: { username: 'hola', email: 'hola@test.de', password: 'newpassword', password_confirmation: 'newpassword' },
+                    as: :json
+
+    assert_response :ok
+    assert_equal 'hola@test.de', JSON.parse(response.body)['email']
+    assert_equal 'hola', JSON.parse(response.body)['username']
   end
 
   test 'update user fails' do

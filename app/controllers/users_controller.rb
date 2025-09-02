@@ -37,11 +37,15 @@ class UsersController < ApplicationController
   end
 
   def update
-    return head :bad_request if params[:active].nil?
+    return head :bad_request if update_params.blank?
 
-    current_user.update!(active: params[:active])
+    current_user.update!(update_params)
 
-    head :ok
+    render json: current_user.slice(:email, :username, :active), status: :ok
+  rescue ActiveRecord::RecordInvalid => e
+    render json: { message: e.message }, status: :bad_request
+  rescue StandardError
+    head :unprocessable_entity
   end
 
   def destroy
@@ -54,5 +58,9 @@ class UsersController < ApplicationController
 
   def user_params
     params.require(:user).permit(:email, :username, :password, :password_confirmation)
+  end
+
+  def update_params
+    params.permit(:email, :username, :password, :password_confirmation, :active)
   end
 end
