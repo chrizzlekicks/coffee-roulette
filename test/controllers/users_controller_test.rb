@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-# # frozen_string_literal: true
-
 require 'test_helper'
 
 class UsersControllerTest < ActionDispatch::IntegrationTest
@@ -87,7 +85,7 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
 
   test 'update email and username of the user' do
     create_session_for @user
-    put users_path, params: { username: 'hola', email: 'hola@test.de', password: 'newpassword', password_confirmation: 'newpassword' },
+    put users_path, params: { username: 'hola', email: 'hola@test.de' },
                     as: :json
 
     assert_response :ok
