@@ -34,6 +34,8 @@ const HttpClient = {
   get: <TData = unknown>(url: string) => request<TData>(url),
   post: <TData = unknown>(url: string, bodyData: Record<string, unknown>) =>
     request<TData>(url, bodyData, HTTP_METHODS.POST),
+  put: <TData = unknown>(url: string, bodyData: Record<string, unknown>) =>
+    request<TData>(url, bodyData, HTTP_METHODS.PUT),
   delete: (url: string) => request(url, undefined, HTTP_METHODS.DELETE),
 };
 
