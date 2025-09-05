@@ -1,6 +1,7 @@
 import { createSignal, Show } from 'solid-js';
 import httpClient from '../lib/httpClient';
 import createPayload from '../lib/createPayload';
+import type { NewUser } from '../types';
 
 const initialPayload: NewUser = {
   username: '',
@@ -40,11 +41,10 @@ const Signup = () => {
             class="input input-bordered"
             name="username"
             type="text"
-            onChange={(e) =>
-              setNewUser({
-                ...newUser(),
-                username: e.target.value,
-              })
+            onChange={(e) => setNewUser({
+              ...newUser(),
+              username: e.target.value,
+            })
             }
             value={newUser().username}
           />
@@ -55,11 +55,10 @@ const Signup = () => {
             class="input input-bordered"
             name="email"
             type="email"
-            onChange={(e) =>
-              setNewUser({
-                ...newUser(),
-                email: e.target.value,
-              })
+            onChange={(e) => setNewUser({
+              ...newUser(),
+              email: e.target.value,
+            })
             }
             value={newUser().email}
           />
@@ -70,11 +69,10 @@ const Signup = () => {
             class="input input-bordered"
             name="password"
             type="password"
-            onChange={(e) =>
-              setNewUser({
-                ...newUser(),
-                password: e.target.value,
-              })
+            onChange={(e) => setNewUser({
+              ...newUser(),
+              password: e.target.value,
+            })
             }
             value={newUser().password}
           />
@@ -85,11 +83,10 @@ const Signup = () => {
             class="input input-bordered"
             name="password_confirmation"
             type="password"
-            onChange={(e) =>
-              setNewUser({
-                ...newUser(),
-                confirmPassword: e.target.value,
-              })
+            onChange={(e) => setNewUser({
+              ...newUser(),
+              confirmPassword: e.target.value,
+            })
             }
             value={newUser().confirmPassword}
           />

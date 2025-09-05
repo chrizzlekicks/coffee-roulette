@@ -49,11 +49,10 @@ const Login = () => {
             class="input input-bordered"
             name="username"
             type="text"
-            onChange={(e) =>
-              setUser({
-                ...user(),
-                username: e.target.value,
-              })
+            onChange={(e) => setUser({
+              ...user(),
+              username: e.target.value,
+            })
             }
             value={user().username}
           />
@@ -64,11 +63,10 @@ const Login = () => {
             class="input input-bordered"
             name="password"
             type="password"
-            onChange={(e) =>
-              setUser({
-                ...user(),
-                password: e.target.value,
-              })
+            onChange={(e) => setUser({
+              ...user(),
+              password: e.target.value,
+            })
             }
             value={user().password}
           />

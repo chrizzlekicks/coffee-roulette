@@ -19,23 +19,20 @@ const optionsConfig = (body?: Record<string, unknown>, method?: string): HttpReq
   body: body ? JSON.stringify(body) : undefined,
 });
 
-const request = <TData = unknown>(url: string, bodyData?: Record<string, unknown>, method?: string): Promise<TData> =>
-  fetch(url, optionsConfig(bodyData, method)).then(async (response) => {
-    const data = await response.json();
+const request = <TData = unknown>(url: string, bodyData?: Record<string, unknown>, method?: string): Promise<TData> => fetch(url, optionsConfig(bodyData, method)).then(async (response) => {
+  const data = await response.json();
 
-    if (!response.ok) {
-      return Promise.reject(data);
-    }
+  if (!response.ok) {
+    return Promise.reject(data);
+  }
 
-    return data;
-  });
+  return data;
+});
 
 const HttpClient = {
   get: <TData = unknown>(url: string) => request<TData>(url),
-  post: <TData = unknown>(url: string, bodyData: Record<string, unknown>) =>
-    request<TData>(url, bodyData, HTTP_METHODS.POST),
-  put: <TData = unknown>(url: string, bodyData: Record<string, unknown>) =>
-    request<TData>(url, bodyData, HTTP_METHODS.PUT),
+  post: <TData = unknown>(url: string, bodyData: Record<string, unknown>) => request<TData>(url, bodyData, HTTP_METHODS.POST),
+  put: <TData = unknown>(url: string, bodyData: Record<string, unknown>) => request<TData>(url, bodyData, HTTP_METHODS.PUT),
   delete: (url: string) => request(url, undefined, HTTP_METHODS.DELETE),
 };
 

@@ -5,6 +5,7 @@ import Main from '../pages/Main';
 import Error from './Error';
 import { AuthProvider } from '../contexts/AuthContext';
 import AuthGuard from './AuthGuard';
+import Settings from '../pages/Settings';
 
 const App = () => (
   <AuthProvider>
@@ -14,6 +15,7 @@ const App = () => (
       {/* Private routes */}
       <Route path="/" component={AuthGuard}>
         <Route path="/main" component={Main} />
+        <Route path="/settings" component={Settings} />
       </Route>
       <Route path="*" component={Error} />
     </Router>

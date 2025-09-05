@@ -23,22 +23,18 @@ const formatDate = (dateString: string) => {
   });
 };
 
-const formatTime = (dateString: string) => (
-  new Date(dateString).toLocaleTimeString('en-US', {
-    hour: 'numeric',
-    minute: '2-digit',
-    hour12: true,
-  })
-);
+const formatTime = (dateString: string) => new Date(dateString).toLocaleTimeString('en-US', {
+  hour: 'numeric',
+  minute: '2-digit',
+  hour12: true,
+});
 
-const getInitials = (username: string) => (
-  username
-    .split('_')
-    .map((part) => part[0])
-    .join('')
-    .toUpperCase()
-    .slice(0, 2)
-);
+const getInitials = (username: string) => username
+  .split('_')
+  .map((part) => part[0])
+  .join('')
+  .toUpperCase()
+  .slice(0, 2);
 
 const TimelineItem = (props: { match: Match }) => {
   const [isExpanded, setIsExpanded] = createSignal(false);

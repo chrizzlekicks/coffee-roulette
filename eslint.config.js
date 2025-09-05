@@ -32,6 +32,8 @@ export default [
     rules: {
       'import/no-extraneous-dependencies': 'off',
       'max-len': 'off',
+      'no-unused-vars': 'off',
+      '@typescript-eslint/no-unused-vars': ['error', { varsIgnorePattern: '^_', argsIgnorePattern: '^_' }],
       'import/extensions': [
         'error',
         'ignorePackages',
