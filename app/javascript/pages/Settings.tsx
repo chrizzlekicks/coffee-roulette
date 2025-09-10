@@ -4,13 +4,15 @@ import httpClient from '../lib/httpClient';
 import createPayload from '../lib/createPayload';
 import { useAuthContext } from '../contexts/AuthContext';
 
-interface UserSettings {
+type UserSettings = {
   username: string;
   email: string;
   password: string;
   password_confirmation: string;
   active: boolean;
 }
+
+type UserProfile = Omit<UserSettings, 'password', 'password_confirmation'>;
 
 const initialPayload: UserSettings = {
   username: '',
@@ -31,7 +33,7 @@ const Settings = () => {
     setIsLoading(true);
     httpClient
       .get('/profile')
-      .then((data: any) => {
+      .then((data: UserProfile) => {
         setUserSettings({
           username: data.username || '',
           email: data.email || '',
@@ -73,9 +75,12 @@ const Settings = () => {
         : {}),
     };
 
-    return httpClient
+    // Capture current settings outside the promise chain to avoid reactivity issues
+    const currentSettings = userSettings();
+
+    httpClient
       .put('/users', createPayload(updateData, 'user'))
-      .then((data: any) => {
+      .then((data: UserSettings) => {
         setMessage('Settings updated successfully');
         setState((prevState) => ({
           ...prevState,
@@ -83,7 +88,7 @@ const Settings = () => {
         }));
         // Clear password fields after successful update
         setUserSettings({
-          ...userSettings(),
+          ...currentSettings,
           password: '',
           password_confirmation: '',
         });
