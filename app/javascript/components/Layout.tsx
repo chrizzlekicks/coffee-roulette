@@ -1,10 +1,12 @@
 import { JSXElement } from 'solid-js';
 import Navbar from './Navbar';
 
-const Layout = (props: { children: JSXElement }) => (
+const Layout = (props: { children: JSXElement; fullWidth?: boolean }) => (
   <>
     <Navbar />
-    <section class="flex justify-center items-center min-h-screen bg-base-200">{props.children}</section>
+    <main class={props.fullWidth ? 'min-h-screen bg-base-200' : 'flex justify-center items-center min-h-screen bg-base-200'}>
+      {props.children}
+    </main>
   </>
 );
 

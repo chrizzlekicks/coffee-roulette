@@ -46,7 +46,7 @@ class SignupUserTest < JavascriptIntegrationTest
 
     click_on 'Submit'
 
-    assert_text 'Welcome'
+    assert_text 'Your Coffee Matches'
     assert_button 'Logout'
 
     assert_selector "a[href$='/main']", text: 'CoffeeRoulette'
@@ -72,7 +72,7 @@ class SignupUserTest < JavascriptIntegrationTest
   def go_to_signin
     visit root_path
 
-    click_on 'Get Started'
+    click_on 'Start Matching Today'
 
     assert_text 'Register now!'
   end

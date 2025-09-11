@@ -101,7 +101,7 @@ class MainPageMatchesTest < JavascriptIntegrationTest
   test 'shows home page when accessing main page without authentication' do
     visit '/main'
 
-    assert_text 'Welcome'
+    assert_text 'Connect with colleagues over coffee'
     assert_text 'CoffeeRoulette'
   end
 
@@ -137,7 +137,8 @@ class MainPageMatchesTest < JavascriptIntegrationTest
 
     assert_selector "a[href$='/main']", text: 'CoffeeRoulette'
 
-    assert_no_text 'Welcome'
+    # Check that we're on the authenticated main page
+    assert_text 'Your Coffee Matches'
     assert_selector '.timeline'
   end
 end

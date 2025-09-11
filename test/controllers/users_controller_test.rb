@@ -96,7 +96,7 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
   test 'update user fails' do
     create_session_for @user
 
-    put users_path, params: { fail: true }, as: :json
+    put users_path, params: { user: { fail: true } }, as: :json
 
     assert_response :bad_request
     assert @user.reload[:active]
