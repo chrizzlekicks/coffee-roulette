@@ -10,7 +10,7 @@ type UserSettings = {
   password: string;
   password_confirmation: string;
   active: boolean;
-}
+};
 
 type UserProfile = Omit<UserSettings, 'password', 'password_confirmation'>;
 
