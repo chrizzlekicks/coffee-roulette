@@ -38,8 +38,11 @@ class SettingsPageTest < JavascriptIntegrationTest
     
     visit '/settings'
     
-    fill_in 'username', with: 'newusername'
-    fill_in 'email', with: 'newemail@example.com'
+    # Clear existing values and set new ones
+    find_field('username').fill_in(with: '')
+    find_field('username').fill_in(with: 'newusername')
+    find_field('email').fill_in(with: '')
+    find_field('email').fill_in(with: 'newemail@example.com')
     
     click_button 'Update Settings'
     
@@ -147,6 +150,26 @@ class SettingsPageTest < JavascriptIntegrationTest
     
     # Should show validation error (this will depend on server-side validation)
     assert_text /(can't be blank|is required|Validation failed)/i, wait: 10
+  end
+
+  test 'user can submit form with Enter key' do
+    login_user(@user)
+    
+    visit '/settings'
+    
+    # Clear and fill username field
+    username_field = find_field('username')
+    username_field.fill_in(with: '')
+    username_field.fill_in(with: 'entersubmit')
+    
+    # Press Enter to submit
+    username_field.send_keys(:return)
+    
+    # Wait for success message
+    assert_text 'Settings updated successfully', wait: 10
+    
+    # Verify the update worked
+    assert_field 'username', with: 'entersubmit'
   end
 
   test 'settings page shows proper sections and styling' do

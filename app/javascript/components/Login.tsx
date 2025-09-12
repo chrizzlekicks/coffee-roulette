@@ -41,7 +41,7 @@ const Login = () => {
     <div class="card bg-base-100 text-primary-content w-96">
       <div class="card-body">
         <h2 class="card-title">Login!</h2>
-        <form class="form-control">
+        <form class="form-control" onSubmit={handleSubmit}>
           <label for="username" class="label">
             Username:{' '}
           </label>
@@ -71,7 +71,7 @@ const Login = () => {
             value={user().password}
           />
           <Show when={message()}>{message()}</Show>
-          <button class="btn btn-primary mt-4" type="submit" onClick={handleSubmit}>
+          <button class="btn btn-primary mt-4" type="submit">
             Submit
           </button>
         </form>

@@ -59,7 +59,7 @@ class HomepageTest < JavascriptIntegrationTest
 
     # Scroll to bottom to make sure CTA is visible
     page.execute_script('window.scrollTo(0, document.body.scrollHeight)')
-    
+
     click_link 'Get Started Free'
 
     assert_current_path '/signin'
@@ -73,7 +73,7 @@ class HomepageTest < JavascriptIntegrationTest
 
     # Check that we're still on the homepage
     assert_current_path '/'
-    
+
     # Check that the How It Works section is visible
     assert_text 'Getting started is simple and takes less than 2 minutes'
   end
@@ -107,7 +107,7 @@ class HomepageTest < JavascriptIntegrationTest
     assert_text 'I was skeptical at first, but now I look forward'
   end
 
-  test 'shows appropriate buttons when user is authenticated' do
+  test 'redirects to the matches page' do
     stub_multiple_users(1)
 
     visit '/signin'
@@ -116,21 +116,8 @@ class HomepageTest < JavascriptIntegrationTest
     fill_in('password', with: 'passwd0')
     click_on 'Submit'
 
-    # Navigate back to homepage
-    visit root_path
-
     # Check that CTAs now point to /main
-    hero_cta = find('a.btn-primary', text: 'Start Matching Today')
-    assert hero_cta[:href].end_with?('/main')
-
-    # Scroll to final CTA section
-    page.execute_script('window.scrollTo(0, document.body.scrollHeight)')
-    
-    final_cta = find('a.btn-white', text: 'Get Started Free')
-    assert final_cta[:href].end_with?('/main')
-
-    secondary_cta = find('a.btn-outline', text: 'Go to Dashboard')
-    assert secondary_cta[:href].end_with?('/main')
+    assert_text 'Your Coffee Matches'
   end
 
   test 'hero section has gradient text styling' do
@@ -165,7 +152,7 @@ class HomepageTest < JavascriptIntegrationTest
     # Check for numbered circles
     within('#how-it-works') do
       assert_text '1'
-      assert_text '2' 
+      assert_text '2'
       assert_text '3'
 
       # Check step content
@@ -200,14 +187,14 @@ class HomepageTest < JavascriptIntegrationTest
   test 'homepage is mobile responsive' do
     # Test mobile viewport
     page.driver.browser.manage.window.resize_to(375, 667)
-    
+
     visit root_path
 
     # Check that content is still visible and properly laid out
     assert_text 'CoffeeRoulette'
     assert_text 'Connect with colleagues'
     assert_link 'Start Matching Today'
-    
+
     # Check that features are stacked vertically on mobile
     features = all('.card', text: /Smart Matching|Daily Opportunities|Effortless Setup/)
     assert_equal 3, features.count

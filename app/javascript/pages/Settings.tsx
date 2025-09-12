@@ -133,7 +133,7 @@ const Settings = () => {
           <Show when={!isLoading()}>
             <div class="card bg-base-200/50 shadow-xl">
               <div class="card-body p-8">
-                <form class="space-y-6">
+                <form class="space-y-6" onSubmit={handleSubmit}>
                   {/* Profile Information Section */}
                   <div class="space-y-4">
                     <h3 class="text-2xl font-bold text-base-content mb-6 flex items-center gap-2">
@@ -270,7 +270,6 @@ const Settings = () => {
                     <button
                       class="btn btn-primary btn-lg flex-1"
                       type="submit"
-                      onClick={handleSubmit}
                       disabled={isLoading()}
                     >
                       <Show when={isLoading()} fallback={
