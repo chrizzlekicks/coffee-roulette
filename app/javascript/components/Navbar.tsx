@@ -34,9 +34,12 @@ const Navbar = () => {
               </A>
             }
           >
+          <div class='flex justify-between gap-2'>
+            <A class='btn' href='/settings'>⚙️</A>
             <button class="btn" onClick={handleLogout}>
               Logout
             </button>
+          </div>
           </Show>
         </div>
       </div>

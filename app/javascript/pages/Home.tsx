@@ -177,11 +177,11 @@ const Home = () => {
             Join thousands of professionals who are already building stronger workplace relationships through CoffeeRoulette
           </p>
           <div class="flex flex-col sm:flex-row gap-4 justify-center items-center">
-            <A href={state.isLoggedIn ? '/main' : '/signin'} class="btn btn-white btn-lg text-primary hover:bg-white/90">
+            <A href='/signin' class="btn btn-white btn-lg text-primary hover:bg-white/90">
               Get Started Free
             </A>
-            <A href={state.isLoggedIn ? '/main' : '/signin'} class="btn btn-outline btn-lg text-white border-white hover:bg-white hover:text-primary">
-              {state.isLoggedIn ? 'Go to Dashboard' : 'Sign In'}
+            <A href='/signin' class="btn btn-outline btn-lg text-white border-white hover:bg-white hover:text-primary">
+              Sign In to Your Account
             </A>
           </div>
         </div>
