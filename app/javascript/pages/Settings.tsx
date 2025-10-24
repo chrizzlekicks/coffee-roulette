@@ -153,7 +153,8 @@ const Settings = () => {
                         onChange={(e) => setUserSettings({
                           ...userSettings(),
                           username: e.target.value,
-                        })}
+                        })
+                        }
                         value={userSettings().username}
                       />
                     </div>
@@ -170,7 +171,8 @@ const Settings = () => {
                         onChange={(e) => setUserSettings({
                           ...userSettings(),
                           email: e.target.value,
-                        })}
+                        })
+                        }
                         value={userSettings().email}
                       />
                     </div>
@@ -198,7 +200,8 @@ const Settings = () => {
                         onChange={(e) => setUserSettings({
                           ...userSettings(),
                           password: e.target.value,
-                        })}
+                        })
+                        }
                         value={userSettings().password}
                       />
                     </div>
@@ -215,7 +218,8 @@ const Settings = () => {
                         onChange={(e) => setUserSettings({
                           ...userSettings(),
                           password_confirmation: e.target.value,
-                        })}
+                        })
+                        }
                         value={userSettings().password_confirmation}
                       />
                     </div>
@@ -236,7 +240,8 @@ const Settings = () => {
                           <div class="flex-1">
                             <h4 class="font-semibold text-lg">Active Status</h4>
                             <p class="text-base-content/70 text-sm">
-                              Enable this to receive coffee match notifications and be included in the matching algorithm
+                              Enable this to receive coffee match notifications and be included in the matching
+                              algorithm
                             </p>
                           </div>
                           <input
@@ -246,7 +251,8 @@ const Settings = () => {
                             onChange={(e) => setUserSettings({
                               ...userSettings(),
                               active: e.target.checked,
-                            })}
+                            })
+                            }
                           />
                         </div>
                       </div>
@@ -255,11 +261,11 @@ const Settings = () => {
 
                   {/* Message Display */}
                   <Show when={message()}>
-                    <div class={`alert ${message().includes('successfully') ? 'alert-success' : 'alert-error'} shadow-lg`}>
+                    <div
+                      class={`alert ${message().includes('successfully') ? 'alert-success' : 'alert-error'} shadow-lg`}
+                    >
                       <div class="flex items-center gap-2">
-                        <div class="text-lg">
-                          {message().includes('successfully') ? '✅' : '❌'}
-                        </div>
+                        <div class="text-lg">{message().includes('successfully') ? '✅' : '❌'}</div>
                         <span>{message()}</span>
                       </div>
                     </div>
@@ -267,17 +273,16 @@ const Settings = () => {
 
                   {/* Action Buttons */}
                   <div class="flex flex-col sm:flex-row gap-4 pt-6">
-                    <button
-                      class="btn btn-primary btn-lg flex-1"
-                      type="submit"
-                      disabled={isLoading()}
-                    >
-                      <Show when={isLoading()} fallback={
-                        <div class="flex items-center gap-2">
-                          <div class="text-lg">💾</div>
-                          Update Settings
-                        </div>
-                      }>
+                    <button class="btn btn-primary btn-lg flex-1" type="submit" disabled={isLoading()}>
+                      <Show
+                        when={isLoading()}
+                        fallback={
+                          <div class="flex items-center gap-2">
+                            <div class="text-lg">💾</div>
+                            Update Settings
+                          </div>
+                        }
+                      >
                         <span class="loading loading-spinner loading-sm" />
                         Updating...
                       </Show>

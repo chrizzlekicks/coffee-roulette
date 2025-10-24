@@ -38,44 +38,51 @@ const Login = () => {
   };
 
   return (
-    <div class="card bg-base-100 text-primary-content w-96">
-      <div class="card-body">
-        <h2 class="card-title">Login!</h2>
-        <form class="form-control" onSubmit={handleSubmit}>
-          <label for="username" class="label">
-            Username:{' '}
+    <div class="w-full">
+      <form class="space-y-5" onSubmit={handleSubmit}>
+        <div>
+          <label for="username" class="block text-sm font-medium text-gray-700 mb-2">
+            Email or Username
           </label>
           <input
-            class="input input-bordered"
+            class="input input-bordered w-full bg-white text-gray-900 focus:ring-2 focus:ring-primary focus:border-primary"
             name="username"
             type="text"
+            placeholder="Enter your username"
             onChange={(e) => setUser({
               ...user(),
               username: e.target.value,
             })
             }
             value={user().username}
+            required
           />
-          <label for="password" class="label">
-            Password:{' '}
+        </div>
+        <div>
+          <label for="password" class="block text-sm font-medium text-gray-700 mb-2">
+            Password
           </label>
           <input
-            class="input input-bordered"
+            class="input input-bordered w-full bg-white text-gray-900 focus:ring-2 focus:ring-primary focus:border-primary"
             name="password"
             type="password"
+            placeholder="Enter your password"
             onChange={(e) => setUser({
               ...user(),
               password: e.target.value,
             })
             }
             value={user().password}
+            required
           />
-          <Show when={message()}>{message()}</Show>
-          <button class="btn btn-primary mt-4" type="submit">
-            Submit
-          </button>
-        </form>
-      </div>
+        </div>
+        <Show when={message()}>
+          <div class="alert alert-error text-sm">{message()}</div>
+        </Show>
+        <button class="btn btn-primary w-full text-white font-semibold text-base h-12" type="submit">
+          Continue
+        </button>
+      </form>
     </div>
   );
 };
