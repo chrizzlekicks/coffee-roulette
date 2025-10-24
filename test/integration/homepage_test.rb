@@ -51,7 +51,7 @@ class HomepageTest < JavascriptIntegrationTest
     click_link 'Start Matching Today'
 
     assert_current_path '/signin'
-    assert_text 'Register now!'
+    assert_text 'Sign In'
   end
 
   test 'final CTA redirects to signin when not logged in' do
@@ -63,7 +63,7 @@ class HomepageTest < JavascriptIntegrationTest
     click_link 'Get Started Free'
 
     assert_current_path '/signin'
-    assert_text 'Register now!'
+    assert_text 'Sign In'
   end
 
   test 'How It Works anchor link scrolls to section' do
@@ -111,10 +111,10 @@ class HomepageTest < JavascriptIntegrationTest
     stub_multiple_users(1)
 
     visit '/signin'
-    find_field(id: 'login').click
+    # Page starts in Sign In mode, no need to switch
     fill_in('username', with: 'test0')
     fill_in('password', with: 'passwd0')
-    click_on 'Submit'
+    click_on 'Continue'
 
     # Check that CTAs now point to /main
     assert_text 'Your Coffee Matches'

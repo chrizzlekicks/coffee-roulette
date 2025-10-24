@@ -29,10 +29,10 @@ class MainPageMatchesTest < JavascriptIntegrationTest
     UserMatchingJob.perform_now
 
     visit '/signin'
-    find_field(id: 'login').click
+    # Page starts in Sign In mode, no need to switch
     fill_in('username', with: 'test0')
     fill_in('password', with: 'passwd0')
-    click_on 'Submit'
+    click_on 'Continue'
 
     assert_selector "a[href$='/main']", text: 'CoffeeRoulette'
     assert_text 'No matches yet'
@@ -47,10 +47,10 @@ class MainPageMatchesTest < JavascriptIntegrationTest
     UserMatchingJob.perform_now
 
     visit '/signin'
-    find_field(id: 'login').click
+    # Page starts in Sign In mode, no need to switch
     fill_in('username', with: 'test0')
     fill_in('password', with: 'passwd0')
-    click_on 'Submit'
+    click_on 'Continue'
 
     assert_selector "a[href$='/main']", text: 'CoffeeRoulette'
     assert_text 'test1'
@@ -66,10 +66,10 @@ class MainPageMatchesTest < JavascriptIntegrationTest
     UserMatchingJob.perform_now
 
     visit '/signin'
-    find_field(id: 'login').click
+    # Page starts in Sign In mode, no need to switch
     fill_in('username', with: 'test0')
     fill_in('password', with: 'passwd0')
-    click_on 'Submit'
+    click_on 'Continue'
 
     assert_selector "a[href$='/main']", text: 'CoffeeRoulette'
     assert_text 'No matches yet'
@@ -110,10 +110,10 @@ class MainPageMatchesTest < JavascriptIntegrationTest
     UserMatchingJob.perform_now
 
     visit '/signin'
-    find_field(id: 'login').click
+    # Page starts in Sign In mode, no need to switch
     fill_in('username', with: 'test0')
     fill_in('password', with: 'passwd0')
-    click_on 'Submit'
+    click_on 'Continue'
 
     assert_current_path '/main'
     assert_selector "a[href$='/main']", text: 'CoffeeRoulette'
@@ -128,12 +128,11 @@ class MainPageMatchesTest < JavascriptIntegrationTest
 
     visit '/signin'
 
-    find_field(id: 'login').click
-
+    # Page starts in Sign In mode, no need to switch
     fill_in('username', with: 'test0')
     fill_in('password', with: 'passwd0')
 
-    click_on 'Submit'
+    click_on 'Continue'
 
     assert_selector "a[href$='/main']", text: 'CoffeeRoulette'
 

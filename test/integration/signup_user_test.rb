@@ -13,7 +13,7 @@ class SignupUserTest < JavascriptIntegrationTest
 
 
     assert_difference 'User.count', 1 do
-      click_on 'Submit'
+      click_on 'Create Account'
 
       assert_text 'The user johndoe was created successfully'
     end
@@ -29,7 +29,7 @@ class SignupUserTest < JavascriptIntegrationTest
     fill_in('password', with: 'passwd0')
     fill_in('password_confirmation', with: 'passwd0')
 
-    click_on 'Submit'
+    click_on 'Create Account'
 
     assert_text 'Validation failed: Email has already been taken'
   end
@@ -39,12 +39,12 @@ class SignupUserTest < JavascriptIntegrationTest
 
     go_to_signin
 
-    find_field(id: 'login').click
+    click_on 'Already have an account? Sign in'
 
     fill_in('username', with: 'test0')
     fill_in('password', with: 'passwd0')
 
-    click_on 'Submit'
+    click_on 'Continue'
 
     assert_text 'Your Coffee Matches'
     assert_button 'Logout'
@@ -57,12 +57,12 @@ class SignupUserTest < JavascriptIntegrationTest
 
     go_to_signin
 
-    find_field(id: 'login').click
+    click_on 'Already have an account? Sign in'
 
     fill_in('username', with: 'test1')
     fill_in('password', with: 'passwd1')
 
-    click_on 'Submit'
+    click_on 'Continue'
 
     assert_text 'Username or password seem to be wrong or non existent'
   end
@@ -89,7 +89,7 @@ class SignupUserTest < JavascriptIntegrationTest
 
     go_to_signin
 
-    find_field(id: 'login').click
+    click_on 'Already have an account? Sign in'
 
     fill_in('username', with: 'test0')
     password_field = find_field('password')
@@ -111,6 +111,9 @@ class SignupUserTest < JavascriptIntegrationTest
 
     click_on 'Start Matching Today'
 
-    assert_text 'Register now!'
+    # Page starts in login mode, switch to signup
+    assert_text 'Sign In'
+    click_on "Don't have an account? Sign up"
+    assert_text 'Create Account'
   end
 end

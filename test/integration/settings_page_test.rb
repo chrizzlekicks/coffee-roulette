@@ -199,30 +199,26 @@ class SettingsPageTest < JavascriptIntegrationTest
 
   def login_user(user)
     visit '/signin'
-    
-    # Switch to login mode
-    find_field(id: 'login').click
-    
+
+    # Page starts in Sign In mode, no need to switch
     fill_in 'username', with: user.username
     fill_in 'password', with: user.password
-    
-    click_button 'Submit'
-    
+
+    click_button 'Continue'
+
     # Wait for successful login
     assert_text 'Your Coffee Matches', wait: 10
   end
 
   def login_user_with_credentials(username, password)
     visit '/signin'
-    
-    # Switch to login mode
-    find_field(id: 'login').click
-    
+
+    # Page starts in Sign In mode, no need to switch
     fill_in 'username', with: username
     fill_in 'password', with: password
-    
-    click_button 'Submit'
-    
+
+    click_button 'Continue'
+
     # Wait for successful login
     assert_text 'Your Coffee Matches', wait: 10
   end
