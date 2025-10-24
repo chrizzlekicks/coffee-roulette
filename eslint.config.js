@@ -16,7 +16,11 @@ export default [
   {
     ignores: ['public/**'],
   },
-  ...compat.extends('airbnb-base', 'plugin:@typescript-eslint/recommended', 'plugin:solid/typescript'),
+  ...compat.extends(
+    'airbnb-base',
+    'plugin:@typescript-eslint/recommended',
+    'plugin:solid/typescript',
+  ),
   ...compat.plugins('@typescript-eslint', 'import', 'solid'),
   {
     languageOptions: {
@@ -33,7 +37,10 @@ export default [
       'import/no-extraneous-dependencies': 'off',
       'max-len': 'off',
       'no-unused-vars': 'off',
-      '@typescript-eslint/no-unused-vars': ['error', { varsIgnorePattern: '^_', argsIgnorePattern: '^_' }],
+      '@typescript-eslint/no-unused-vars': [
+        'error',
+        { varsIgnorePattern: '^_', argsIgnorePattern: '^_' },
+      ],
       'import/extensions': [
         'error',
         'ignorePackages',
@@ -44,6 +51,12 @@ export default [
           tsx: 'never',
         },
       ],
+      // Disable formatting rules - we use Biome for formatting
+      'implicit-arrow-linebreak': 'off',
+      'object-curly-newline': 'off',
+      indent: 'off',
+      'function-paren-newline': 'off',
+      'operator-linebreak': 'off',
     },
     settings: {
       'import/resolver': {

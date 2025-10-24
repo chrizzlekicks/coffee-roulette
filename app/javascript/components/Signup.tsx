@@ -41,10 +41,11 @@ const Signup = () => {
             name="username"
             type="text"
             placeholder="Choose a username"
-            onChange={(e) => setNewUser({
-              ...newUser(),
-              username: e.target.value,
-            })
+            onChange={(e) =>
+              setNewUser({
+                ...newUser(),
+                username: e.target.value,
+              })
             }
             value={newUser().username}
             required
@@ -59,10 +60,11 @@ const Signup = () => {
             name="email"
             type="email"
             placeholder="your.email@company.com"
-            onChange={(e) => setNewUser({
-              ...newUser(),
-              email: e.target.value,
-            })
+            onChange={(e) =>
+              setNewUser({
+                ...newUser(),
+                email: e.target.value,
+              })
             }
             value={newUser().email}
             required
@@ -77,10 +79,11 @@ const Signup = () => {
             name="password"
             type="password"
             placeholder="Create a password"
-            onChange={(e) => setNewUser({
-              ...newUser(),
-              password: e.target.value,
-            })
+            onChange={(e) =>
+              setNewUser({
+                ...newUser(),
+                password: e.target.value,
+              })
             }
             value={newUser().password}
             required
@@ -95,21 +98,27 @@ const Signup = () => {
             name="password_confirmation"
             type="password"
             placeholder="Confirm your password"
-            onChange={(e) => setNewUser({
-              ...newUser(),
-              confirmPassword: e.target.value,
-            })
+            onChange={(e) =>
+              setNewUser({
+                ...newUser(),
+                confirmPassword: e.target.value,
+              })
             }
             value={newUser().confirmPassword}
             required
           />
         </div>
         <Show when={message()}>
-          <div class={`alert ${message().includes('successfully') ? 'alert-success' : 'alert-error'} text-sm`}>
+          <div
+            class={`alert ${message().includes('successfully') ? 'alert-success' : 'alert-error'} text-sm`}
+          >
             {message()}
           </div>
         </Show>
-        <button class="btn btn-primary w-full text-white font-semibold text-base h-12" type="submit">
+        <button
+          class="btn btn-primary w-full text-white font-semibold text-base h-12"
+          type="submit"
+        >
           Create Account
         </button>
       </form>

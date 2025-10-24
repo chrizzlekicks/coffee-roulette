@@ -21,7 +21,9 @@ const Signin = () => {
 
           {/* Tab switcher */}
           <div class="mb-6">
-            <h2 class="text-2xl font-semibold mb-6 text-gray-800">{isLogin() ? 'Sign In' : 'Create Account'}</h2>
+            <h2 class="text-2xl font-semibold mb-6 text-gray-800">
+              {isLogin() ? 'Sign In' : 'Create Account'}
+            </h2>
           </div>
 
           {/* Form area */}
@@ -43,11 +45,23 @@ const Signin = () => {
       <div class="hidden lg:flex lg:w-1/2 bg-gradient-to-br from-accent to-primary items-center justify-center p-12">
         <div class="text-white max-w-lg">
           <h2 class="text-4xl font-bold mb-8">The new way to connect with your team</h2>
-          <p class="text-xl mb-8 text-sky-100">Build stronger relationships through spontaneous coffee meetings</p>
+          <p class="text-xl mb-8 text-sky-100">
+            Build stronger relationships through spontaneous coffee meetings
+          </p>
           <div class="space-y-6">
             <div class="flex items-start gap-4">
-              <svg class="w-6 h-6 mt-1 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+              <svg
+                class="w-6 h-6 mt-1 flex-shrink-0"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M5 13l4 4L19 7"
+                />
               </svg>
               <div>
                 <p class="font-semibold text-lg">Random matching system</p>
@@ -55,8 +69,18 @@ const Signin = () => {
               </div>
             </div>
             <div class="flex items-start gap-4">
-              <svg class="w-6 h-6 mt-1 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+              <svg
+                class="w-6 h-6 mt-1 flex-shrink-0"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M5 13l4 4L19 7"
+                />
               </svg>
               <div>
                 <p class="font-semibold text-lg">Break down silos</p>
@@ -64,8 +88,18 @@ const Signin = () => {
               </div>
             </div>
             <div class="flex items-start gap-4">
-              <svg class="w-6 h-6 mt-1 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+              <svg
+                class="w-6 h-6 mt-1 flex-shrink-0"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M5 13l4 4L19 7"
+                />
               </svg>
               <div>
                 <p class="font-semibold text-lg">Build company culture</p>

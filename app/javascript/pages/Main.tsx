@@ -1,6 +1,4 @@
-import {
-  createResource, Show, Switch, Match as SolidMatch, For,
-} from 'solid-js';
+import { createResource, Show, Switch, Match as SolidMatch, For } from 'solid-js';
 import type { Match } from '../types';
 import Layout from '../components/Layout';
 import TimelineItem from '../components/TimelineItem';
@@ -73,7 +71,9 @@ const Main = () => {
                   <div class="stat-value">
                     {
                       matches()!.filter(
-                        (match) => new Date().getTime() - new Date(match.date).getTime() < 7 * 24 * 60 * 60 * 1000,
+                        (match) =>
+                          new Date().getTime() - new Date(match.date).getTime() <
+                          7 * 24 * 60 * 60 * 1000,
                       ).length
                     }
                   </div>

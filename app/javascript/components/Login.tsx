@@ -49,10 +49,11 @@ const Login = () => {
             name="username"
             type="text"
             placeholder="Enter your username"
-            onChange={(e) => setUser({
-              ...user(),
-              username: e.target.value,
-            })
+            onChange={(e) =>
+              setUser({
+                ...user(),
+                username: e.target.value,
+              })
             }
             value={user().username}
             required
@@ -67,10 +68,11 @@ const Login = () => {
             name="password"
             type="password"
             placeholder="Enter your password"
-            onChange={(e) => setUser({
-              ...user(),
-              password: e.target.value,
-            })
+            onChange={(e) =>
+              setUser({
+                ...user(),
+                password: e.target.value,
+              })
             }
             value={user().password}
             required
@@ -79,7 +81,10 @@ const Login = () => {
         <Show when={message()}>
           <div class="alert alert-error text-sm">{message()}</div>
         </Show>
-        <button class="btn btn-primary w-full text-white font-semibold text-base h-12" type="submit">
+        <button
+          class="btn btn-primary w-full text-white font-semibold text-base h-12"
+          type="submit"
+        >
           Continue
         </button>
       </form>

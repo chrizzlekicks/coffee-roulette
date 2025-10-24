@@ -33,8 +33,6 @@ jobs:
         with:
           node-version: '18'
       - run: npm ci
-      - name: Run ESLint
-        run: npm run lint
-      - name: Check Biome formatting
-        run: npm run format:check
+      - name: Format with Biome and then run ESLint
+        run: npm run format:lint
 

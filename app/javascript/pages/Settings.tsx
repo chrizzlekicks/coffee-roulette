@@ -69,9 +69,9 @@ const Settings = () => {
       active: settings.active,
       ...(settings.password
         ? {
-          password: settings.password,
-          password_confirmation: settings.password_confirmation,
-        }
+            password: settings.password,
+            password_confirmation: settings.password_confirmation,
+          }
         : {}),
     };
 
@@ -150,10 +150,11 @@ const Settings = () => {
                         name="username"
                         type="text"
                         placeholder="Enter your username"
-                        onChange={(e) => setUserSettings({
-                          ...userSettings(),
-                          username: e.target.value,
-                        })
+                        onChange={(e) =>
+                          setUserSettings({
+                            ...userSettings(),
+                            username: e.target.value,
+                          })
                         }
                         value={userSettings().username}
                       />
@@ -168,10 +169,11 @@ const Settings = () => {
                         name="email"
                         type="email"
                         placeholder="Enter your email address"
-                        onChange={(e) => setUserSettings({
-                          ...userSettings(),
-                          email: e.target.value,
-                        })
+                        onChange={(e) =>
+                          setUserSettings({
+                            ...userSettings(),
+                            email: e.target.value,
+                          })
                         }
                         value={userSettings().email}
                       />
@@ -190,17 +192,20 @@ const Settings = () => {
                     <div class="form-control">
                       <label class="label">
                         <span class="label-text font-medium">New Password</span>
-                        <span class="label-text-alt text-base-content/60">Leave empty to keep current</span>
+                        <span class="label-text-alt text-base-content/60">
+                          Leave empty to keep current
+                        </span>
                       </label>
                       <input
                         class="input input-bordered input-lg"
                         name="password"
                         type="password"
                         placeholder="Enter new password"
-                        onChange={(e) => setUserSettings({
-                          ...userSettings(),
-                          password: e.target.value,
-                        })
+                        onChange={(e) =>
+                          setUserSettings({
+                            ...userSettings(),
+                            password: e.target.value,
+                          })
                         }
                         value={userSettings().password}
                       />
@@ -215,10 +220,11 @@ const Settings = () => {
                         name="password_confirmation"
                         type="password"
                         placeholder="Confirm new password"
-                        onChange={(e) => setUserSettings({
-                          ...userSettings(),
-                          password_confirmation: e.target.value,
-                        })
+                        onChange={(e) =>
+                          setUserSettings({
+                            ...userSettings(),
+                            password_confirmation: e.target.value,
+                          })
                         }
                         value={userSettings().password_confirmation}
                       />
@@ -240,18 +246,19 @@ const Settings = () => {
                           <div class="flex-1">
                             <h4 class="font-semibold text-lg">Active Status</h4>
                             <p class="text-base-content/70 text-sm">
-                              Enable this to receive coffee match notifications and be included in the matching
-                              algorithm
+                              Enable this to receive coffee match notifications and be included in
+                              the matching algorithm
                             </p>
                           </div>
                           <input
                             type="checkbox"
                             class="toggle toggle-primary toggle-lg ml-4"
                             checked={userSettings().active}
-                            onChange={(e) => setUserSettings({
-                              ...userSettings(),
-                              active: e.target.checked,
-                            })
+                            onChange={(e) =>
+                              setUserSettings({
+                                ...userSettings(),
+                                active: e.target.checked,
+                              })
                             }
                           />
                         </div>
@@ -265,7 +272,9 @@ const Settings = () => {
                       class={`alert ${message().includes('successfully') ? 'alert-success' : 'alert-error'} shadow-lg`}
                     >
                       <div class="flex items-center gap-2">
-                        <div class="text-lg">{message().includes('successfully') ? '✅' : '❌'}</div>
+                        <div class="text-lg">
+                          {message().includes('successfully') ? '✅' : '❌'}
+                        </div>
                         <span>{message()}</span>
                       </div>
                     </div>
@@ -273,7 +282,11 @@ const Settings = () => {
 
                   {/* Action Buttons */}
                   <div class="flex flex-col sm:flex-row gap-4 pt-6">
-                    <button class="btn btn-primary btn-lg flex-1" type="submit" disabled={isLoading()}>
+                    <button
+                      class="btn btn-primary btn-lg flex-1"
+                      type="submit"
+                      disabled={isLoading()}
+                    >
                       <Show
                         when={isLoading()}
                         fallback={
