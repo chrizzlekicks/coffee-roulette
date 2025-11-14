@@ -113,7 +113,7 @@ class HomepageTest < JavascriptIntegrationTest
     visit '/signin'
     # Page starts in Sign In mode, no need to switch
     fill_in('username', with: 'test0')
-    fill_in('password', with: 'passwd0')
+    fill_in('password', with: 'ValidPassword0!')
     click_on 'Continue'
 
     # Check that CTAs now point to /main

@@ -35,7 +35,7 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
   test 'create new user and return it' do
     assert_emails 1 do
       post users_path,
-           params: { user: { username: 'test2', email: 'test2@test.de', password: 'salam', password_confirmation: 'salam' } }, as: :json
+           params: { user: { username: 'test2', email: 'test2@test.de', password: 'ValidPassword123!', password_confirmation: 'ValidPassword123!' } }, as: :json
       assert_response :created
     end
 

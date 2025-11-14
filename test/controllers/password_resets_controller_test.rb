@@ -4,7 +4,7 @@ require 'test_helper'
 
 class PasswordResetsControllerTest < ActionDispatch::IntegrationTest
   setup do
-    @user = User.create!(username: 'test', email: 'test@test.de', password: 'randompasswd')
+    @user = User.create!(username: 'test', email: 'test@test.de', password: 'ValidPassword123!')
   end
 
   test 'throws bad request if no email is provided in params' do
@@ -49,7 +49,7 @@ class PasswordResetsControllerTest < ActionDispatch::IntegrationTest
     assert_changes -> { @user.reload.password_digest } do
       put password_reset_path, params: {
         token:,
-        password_digest: 'whatever'
+        password_digest: 'NewValidPassword456!'
       }
 
       assert_response :ok
@@ -105,7 +105,7 @@ class PasswordResetsControllerTest < ActionDispatch::IntegrationTest
 
     put password_reset_path, params: {
       token:,
-      password_digest: 'newshinypasswd'
+      password_digest: 'NewShinyPassword789!'
     }
 
     assert_response :ok

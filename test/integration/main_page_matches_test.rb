@@ -31,7 +31,7 @@ class MainPageMatchesTest < JavascriptIntegrationTest
     visit '/signin'
     # Page starts in Sign In mode, no need to switch
     fill_in('username', with: 'test0')
-    fill_in('password', with: 'passwd0')
+    fill_in('password', with: 'ValidPassword0!')
     click_on 'Continue'
 
     assert_selector "a[href$='/main']", text: 'CoffeeRoulette'
@@ -49,7 +49,7 @@ class MainPageMatchesTest < JavascriptIntegrationTest
     visit '/signin'
     # Page starts in Sign In mode, no need to switch
     fill_in('username', with: 'test0')
-    fill_in('password', with: 'passwd0')
+    fill_in('password', with: 'ValidPassword0!')
     click_on 'Continue'
 
     assert_selector "a[href$='/main']", text: 'CoffeeRoulette'
@@ -68,7 +68,7 @@ class MainPageMatchesTest < JavascriptIntegrationTest
     visit '/signin'
     # Page starts in Sign In mode, no need to switch
     fill_in('username', with: 'test0')
-    fill_in('password', with: 'passwd0')
+    fill_in('password', with: 'ValidPassword0!')
     click_on 'Continue'
 
     assert_selector "a[href$='/main']", text: 'CoffeeRoulette'
@@ -112,7 +112,7 @@ class MainPageMatchesTest < JavascriptIntegrationTest
     visit '/signin'
     # Page starts in Sign In mode, no need to switch
     fill_in('username', with: 'test0')
-    fill_in('password', with: 'passwd0')
+    fill_in('password', with: 'ValidPassword0!')
     click_on 'Continue'
 
     assert_current_path '/main'
@@ -130,7 +130,7 @@ class MainPageMatchesTest < JavascriptIntegrationTest
 
     # Page starts in Sign In mode, no need to switch
     fill_in('username', with: 'test0')
-    fill_in('password', with: 'passwd0')
+    fill_in('password', with: 'ValidPassword0!')
 
     click_on 'Continue'
 

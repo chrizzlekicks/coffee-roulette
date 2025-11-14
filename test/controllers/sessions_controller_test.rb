@@ -4,7 +4,7 @@ require 'test_helper'
 
 class SessionsControllerTest < ActionDispatch::IntegrationTest
   setup do
-    @user = User.create!(username: 'test', email: 'test@test.de', password: 'randompasswd')
+    @user = User.create!(username: 'test', email: 'test@test.de', password: 'ValidPassword123!')
   end
 
   test 'does not create a session due to missing user' do

@@ -4,8 +4,8 @@ require 'test_helper'
 
 class MatchMailerTest < ActionMailer::TestCase
   def setup
-    @user_one = User.create!(username: 'test', email: 'test@test.de', password: 'randompasswd')
-    @user_two = User.create!(username: 'test-2', email: 'test-2@test.de', password: 'anotherrandompasswd')
+    @user_one = User.create!(username: 'test', email: 'test@test.de', password: 'ValidPassword123!')
+    @user_two = User.create!(username: 'test-2', email: 'test-2@test.de', password: 'ValidPassword456!')
   end
 
   test 'matched' do

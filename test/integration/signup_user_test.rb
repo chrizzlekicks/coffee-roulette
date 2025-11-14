@@ -8,8 +8,8 @@ class SignupUserTest < JavascriptIntegrationTest
 
     fill_in('username', with: 'johndoe')
     fill_in('email', with: 'johndoe@email.de')
-    fill_in('password', with: 'password')
-    fill_in('password_confirmation', with: 'password')
+    fill_in('password', with: 'StrongPassword123!')
+    fill_in('password_confirmation', with: 'StrongPassword123!')
 
 
     assert_difference 'User.count', 1 do
@@ -26,8 +26,8 @@ class SignupUserTest < JavascriptIntegrationTest
 
     fill_in('username', with: 'test0')
     fill_in('email', with: 'test0@test.de')
-    fill_in('password', with: 'passwd0')
-    fill_in('password_confirmation', with: 'passwd0')
+    fill_in('password', with: 'ValidPassword0!')
+    fill_in('password_confirmation', with: 'ValidPassword0!')
 
     click_on 'Create Account'
 
@@ -42,7 +42,7 @@ class SignupUserTest < JavascriptIntegrationTest
     click_on 'Already have an account? Sign in'
 
     fill_in('username', with: 'test0')
-    fill_in('password', with: 'passwd0')
+    fill_in('password', with: 'ValidPassword0!')
 
     click_on 'Continue'
 
@@ -60,7 +60,7 @@ class SignupUserTest < JavascriptIntegrationTest
     click_on 'Already have an account? Sign in'
 
     fill_in('username', with: 'test1')
-    fill_in('password', with: 'passwd1')
+    fill_in('password', with: 'ValidPassword1!')
 
     click_on 'Continue'
 
@@ -93,7 +93,7 @@ class SignupUserTest < JavascriptIntegrationTest
 
     fill_in('username', with: 'test0')
     password_field = find_field('password')
-    password_field.fill_in(with: 'passwd0')
+    password_field.fill_in(with: 'ValidPassword0!')
 
     # Press Enter to submit the form
     password_field.send_keys(:return)
@@ -102,6 +102,40 @@ class SignupUserTest < JavascriptIntegrationTest
     assert_button 'Logout'
 
     assert_selector "a[href$='/main']", text: 'CoffeeRoulette'
+  end
+
+  test 'signup shows password validation errors' do
+    go_to_signin
+
+    fill_in('username', with: 'testuser')
+    fill_in('email', with: 'test@test.de')
+
+    password_field = find_field('password')
+
+    # Test too short password
+    password_field.fill_in(with: 'Short1!')
+    find_field('email').click # Trigger blur by clicking away
+    assert_text 'Password must be at least 12 characters long', wait: 2
+
+    # Test missing uppercase
+    password_field.fill_in(with: 'lowercase123!')
+    find_field('email').click # Trigger blur
+    assert_text 'Password must contain at least one uppercase letter', wait: 2
+
+    # Test missing number
+    password_field.fill_in(with: 'NoNumbersHere!')
+    find_field('email').click # Trigger blur
+    assert_text 'Password must contain at least one number', wait: 2
+
+    # Test missing special character
+    password_field.fill_in(with: 'NoSpecialChar123')
+    find_field('email').click # Trigger blur
+    assert_text 'Password must contain at least one special character', wait: 2
+
+    # Test valid password - error should disappear
+    password_field.fill_in(with: 'ValidPassword123!')
+    find_field('email').click # Trigger blur
+    assert_no_text 'Password must', wait: 2
   end
 
   private

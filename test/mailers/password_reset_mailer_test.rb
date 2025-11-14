@@ -4,7 +4,7 @@ require 'test_helper'
 
 class PasswordResetMailerTest < ActionMailer::TestCase
   def setup
-    @user = User.create!(username: 'test', email: 'test@test.de', password: 'randompasswd')
+    @user = User.create!(username: 'test', email: 'test@test.de', password: 'ValidPassword123!')
   end
 
   test 'reset link' do

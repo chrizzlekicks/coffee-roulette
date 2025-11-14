@@ -10,12 +10,18 @@ class User < ApplicationRecord
     BCrypt::Password.new(password_digest).salt[-10..]
   end
 
-  # password should be properly validated
   validates :email, presence: true, uniqueness: true, format: {
     with: /[a-z0-9]+@[a-z]+\.[a-z]{2,3}/,
     message: 'Please provide valid email address'
   }
   validates :username, presence: true
+  validates :password,
+            format: {
+              with: /\A(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*(),.?":{}|<>]).{12,}\z/,
+              message: 'must be at least 12 characters and contain at least one uppercase letter, ' \
+                       'one number, and one special character'
+            },
+            if: :password_digest_changed?
 
   scope :active, -> { where active: true }
   scope :not_matched_today, lambda {

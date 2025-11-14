@@ -13,6 +13,35 @@ const initialPayload: NewUser = {
 const Signup = () => {
   const [newUser, setNewUser] = createSignal(initialPayload);
   const [message, setMessage] = createSignal('');
+  const [passwordError, setPasswordError] = createSignal('');
+
+  const validatePassword = (password: string) => {
+    if (password.length < 12) {
+      return 'Password must be at least 12 characters long';
+    }
+    if (!/[A-Z]/.test(password)) {
+      return 'Password must contain at least one uppercase letter';
+    }
+    if (!/[0-9]/.test(password)) {
+      return 'Password must contain at least one number';
+    }
+    if (!/[!@#$%^&*(),.?":{}|<>]/.test(password)) {
+      return 'Password must contain at least one special character';
+    }
+    return '';
+  };
+
+  const handlePasswordChange = (value: string) => {
+    setNewUser({
+      ...newUser(),
+      password: value,
+    });
+  };
+
+  const handlePasswordBlur = () => {
+    const error = validatePassword(newUser().password);
+    setPasswordError(error);
+  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -22,6 +51,7 @@ const Signup = () => {
       .then((data: NewUser) => {
         setMessage(`The user ${data.username} was created successfully`);
         setNewUser(initialPayload);
+        setPasswordError('');
       })
       .catch((error: Error) => {
         setMessage(error.message);
@@ -79,15 +109,14 @@ const Signup = () => {
             name="password"
             type="password"
             placeholder="Create a password"
-            onChange={(e) =>
-              setNewUser({
-                ...newUser(),
-                password: e.target.value,
-              })
-            }
+            onChange={(e) => handlePasswordChange(e.target.value)}
+            onBlur={handlePasswordBlur}
             value={newUser().password}
             required
           />
+          <Show when={passwordError()}>
+            <p class="text-warning text-sm mt-1">{passwordError()}</p>
+          </Show>
         </div>
         <div>
           <label for="password_confirmation" class="block text-sm font-medium text-gray-700 mb-2">

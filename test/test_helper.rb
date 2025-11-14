@@ -19,7 +19,7 @@ module ActiveSupport
     # Add more helper methods to be used by all tests here...
 
     def stub_multiple_users(count)
-      count.times { |i| User.create!(username: "test#{i}", email: "test#{i}@test.de", password: "passwd#{i}") }
+      count.times { |i| User.create!(username: "test#{i}", email: "test#{i}@test.de", password: "ValidPassword#{i}!") }
     end
   end
 end

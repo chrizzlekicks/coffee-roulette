@@ -4,7 +4,7 @@ require 'test_helper'
 
 class MatchesControllerTest < ActionDispatch::IntegrationTest
   setup do
-    @user = User.create!(username: 'test', email: 'test@test.de', password: 'randompasswd')
+    @user = User.create!(username: 'test', email: 'test@test.de', password: 'ValidPassword123!')
     create_session_for(@user)
   end
 

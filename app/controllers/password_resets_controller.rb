@@ -22,7 +22,7 @@ class PasswordResetsController < ApplicationController
   def update
     user = User.find_by_token_for!(:password_reset, params[:token])
 
-    user.update!(password_digest: params[:password_digest])
+    user.update!(password: params[:password_digest])
 
     log_out
 

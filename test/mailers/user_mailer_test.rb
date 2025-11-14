@@ -4,7 +4,7 @@ require 'test_helper'
 
 class UserMailerTest < ActionMailer::TestCase
   setup do
-    @user = User.create!(username: 'test', email: 'test@test.de', password: 'randompasswd')
+    @user = User.create!(username: 'test', email: 'test@test.de', password: 'ValidPassword123!')
   end
 
   test 'welcome' do
