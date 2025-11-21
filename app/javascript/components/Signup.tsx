@@ -43,11 +43,16 @@ const Signup = () => {
     setPasswordError(error);
   };
 
+  const transformUserPayload = (user: NewUser) => {
+    const { confirmPassword, ...rest } = user;
+    return { ...rest, password_confirmation: confirmPassword };
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
 
     return httpClient
-      .post('/users', createPayload(newUser(), 'user'))
+      .post('/users', createPayload(transformUserPayload(newUser()), 'user'))
       .then((data: NewUser) => {
         setMessage(`The user ${data.username} was created successfully`);
         setNewUser(initialPayload);

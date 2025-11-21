@@ -11,7 +11,6 @@ class SignupUserTest < JavascriptIntegrationTest
     fill_in('password', with: 'StrongPassword123!')
     fill_in('password_confirmation', with: 'StrongPassword123!')
 
-
     assert_difference 'User.count', 1 do
       click_on 'Create Account'
 
@@ -65,6 +64,19 @@ class SignupUserTest < JavascriptIntegrationTest
     click_on 'Continue'
 
     assert_text 'Username or password seem to be wrong or non existent'
+  end
+
+  test 'signup fails due to password mismatch' do
+    go_to_signin
+
+    fill_in('username', with: 'janedoe')
+    fill_in('email', with: 'janedoe@dojo.com')
+    fill_in('password', with: 'StrongPassword123!')
+    fill_in('password_confirmation', with: 'DifferentPassword456!')
+
+    click_on 'Create Account'
+
+    assert_text "Validation failed: Password confirmation doesn't match Password"
   end
 
   test 'signup works with Enter key submission' do
