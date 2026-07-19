@@ -1,62 +1,37 @@
-# syntax = docker/dockerfile:1
+# syntax=docker/dockerfile:1
 
-# Make sure RUBY_VERSION matches the Ruby version in .ruby-version and Gemfile
-ARG RUBY_VERSION=3.2.2
-FROM registry.docker.com/library/ruby:$RUBY_VERSION-slim as base
+FROM node:22-bookworm-slim AS web
+WORKDIR /app
+COPY package.json package-lock.json ./
+RUN npm ci
+COPY index.html vite.config.ts tsconfig.json postcss.config.js tailwind.config.ts eslint.config.js ./
+COPY app/javascript app/javascript
+COPY public public
+RUN npm run build
 
-# Rails app lives here
-WORKDIR /rails
+FROM rust:1.88-bookworm AS rust-build
+WORKDIR /app
+COPY Cargo.toml Cargo.lock ./
+COPY migrations migrations
+COPY src src
+RUN cargo build --release
 
-# Set production environment
-ENV RAILS_ENV="production" \
-    BUNDLE_DEPLOYMENT="1" \
-    BUNDLE_PATH="/usr/local/bundle" \
-    BUNDLE_WITHOUT="development"
+FROM debian:bookworm-slim
+RUN apt-get update \
+    && apt-get install --no-install-recommends -y ca-certificates \
+    && rm -rf /var/lib/apt/lists/* \
+    && useradd --create-home --shell /usr/sbin/nologin app
+WORKDIR /app
+COPY --from=rust-build /app/target/release/coffee-roulette ./coffee-roulette
+COPY --from=rust-build /app/migrations ./migrations
+COPY --from=web /app/dist ./dist
+COPY bin/docker-entrypoint ./bin/docker-entrypoint
+RUN chmod +x bin/docker-entrypoint && chown -R app:app /app
+USER app
 
-
-# Throw-away build stage to reduce size of final image
-FROM base as build
-
-# Install packages needed to build gems
-RUN apt-get update -qq && \
-    apt-get install --no-install-recommends -y build-essential git libvips pkg-config
-
-# Install application gems
-COPY Gemfile Gemfile.lock ./
-RUN bundle install && \
-    rm -rf ~/.bundle/ "${BUNDLE_PATH}"/ruby/*/cache "${BUNDLE_PATH}"/ruby/*/bundler/gems/*/.git && \
-    bundle exec bootsnap precompile --gemfile
-
-# Copy application code
-COPY . .
-
-# Precompile bootsnap code for faster boot times
-RUN bundle exec bootsnap precompile app/ lib/
-
-# Precompiling assets for production without requiring secret RAILS_MASTER_KEY
-RUN SECRET_KEY_BASE_DUMMY=1 ./bin/rails assets:precompile
-
-
-# Final stage for app image
-FROM base
-
-# Install packages needed for deployment
-RUN apt-get update -qq && \
-    apt-get install --no-install-recommends -y curl libsqlite3-0 libvips && \
-    rm -rf /var/lib/apt/lists /var/cache/apt/archives
-
-# Copy built artifacts: gems, application
-COPY --from=build /usr/local/bundle /usr/local/bundle
-COPY --from=build /rails /rails
-
-# Run and own only the runtime files as a non-root user for security
-RUN useradd rails --create-home --shell /bin/bash && \
-    chown -R rails:rails db log storage tmp
-USER rails:rails
-
-# Entrypoint prepares the database.
-ENTRYPOINT ["/rails/bin/docker-entrypoint"]
-
-# Start the server by default, this can be overwritten at runtime
+ENV BIND_ADDR=0.0.0.0:3000 \
+    STATIC_DIR=dist \
+    APP_ENV=production
 EXPOSE 3000
-CMD ["./bin/rails", "server"]
+ENTRYPOINT ["/app/bin/docker-entrypoint"]
+CMD ["serve"]

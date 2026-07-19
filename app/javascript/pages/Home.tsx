@@ -18,12 +18,12 @@ const Home = () => {
               Connect with colleagues over coffee, one match at a time
             </p>
             <p class="text-lg md:text-xl text-base-content/70 mb-8 max-w-3xl mx-auto leading-relaxed">
-              Break down silos and build meaningful relationships with your team. Our smart matching
-              algorithm pairs you with colleagues for spontaneous coffee chats that spark
-              collaboration and friendship.
+              Break down silos and build meaningful relationships with your team. Random matching
+              pairs you with colleagues for spontaneous coffee chats that spark collaboration and
+              friendship.
             </p>
             <div class="flex flex-col sm:flex-row gap-4 justify-center items-center">
-              <A href={state.isLoggedIn ? '/main' : '/signin'} class="btn btn-primary btn-lg">
+              <A href={state.user ? '/main' : '/signin'} class="btn btn-primary btn-lg">
                 Start Matching Today
               </A>
               <A href="#how-it-works" class="btn btn-outline btn-lg">
@@ -47,10 +47,10 @@ const Home = () => {
             <div class="card bg-base-200/50 shadow-lg hover:shadow-xl transition-shadow duration-300">
               <div class="card-body text-center">
                 <div class="text-5xl mb-4">🎲</div>
-                <h3 class="card-title text-2xl justify-center mb-3">Smart Matching</h3>
+                <h3 class="card-title text-2xl justify-center mb-3">Random Matching</h3>
                 <p class="text-base-content/80">
-                  Our algorithm intelligently pairs you with colleagues you haven't connected with
-                  recently, ensuring diverse and meaningful interactions.
+                  Get randomly paired with available colleagues for spontaneous, meaningful
+                  conversations.
                 </p>
               </div>
             </div>
@@ -66,11 +66,10 @@ const Home = () => {
             </div>
             <div class="card bg-base-200/50 shadow-lg hover:shadow-xl transition-shadow duration-300">
               <div class="card-body text-center">
-                <div class="text-5xl mb-4">📧</div>
+                <div class="text-5xl mb-4">🎯</div>
                 <h3 class="card-title text-2xl justify-center mb-3">Effortless Setup</h3>
                 <p class="text-base-content/80">
-                  Simple signup, instant email notifications, and zero maintenance. Focus on the
-                  conversations, not the logistics.
+                  Simple signup and zero maintenance. Focus on the conversations, not the logistics.
                 </p>
               </div>
             </div>
@@ -97,7 +96,7 @@ const Home = () => {
               <div class="flex-1 text-center md:text-left">
                 <h3 class="text-2xl font-bold mb-2">Sign Up</h3>
                 <p class="text-base-content/80">
-                  Create your account with just your email and name. Join your organization's
+                  Create your account with a username and password. Join your organization's
                   CoffeeRoulette community.
                 </p>
               </div>
@@ -111,8 +110,8 @@ const Home = () => {
               <div class="flex-1 text-center md:text-left">
                 <h3 class="text-2xl font-bold mb-2">Get Matched</h3>
                 <p class="text-base-content/80">
-                  Our algorithm pairs you with colleagues for coffee meetups. Receive email
-                  notifications with your match details.
+                  Our algorithm pairs you with colleagues for coffee meetups. Find your match
+                  details in your personal history.
                 </p>
               </div>
             </div>

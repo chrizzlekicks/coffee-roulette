@@ -1,46 +1,33 @@
-const HTTP_METHODS = {
-  GET: 'GET',
-  POST: 'POST',
-  PUT: 'PUT',
-  DELETE: 'DELETE',
-};
+const api = '/api';
 
-type HttpRequestOptions = RequestInit & {
-  headers: HeadersInit;
-};
+type ErrorResponse = { error?: string; message?: string };
 
-const optionsConfig = (body?: Record<string, unknown>, method?: string): HttpRequestOptions => ({
-  headers: {
-    Accept: 'application/json',
-    'content-type': 'application/json',
-    'X-CSRF-Token': document.querySelector<HTMLMetaElement>('meta[name="csrf-token"]').content,
-  },
-  method: method ?? HTTP_METHODS.GET,
-  body: body ? JSON.stringify(body) : undefined,
-});
-
-const request = <TData = unknown>(
-  url: string,
-  bodyData?: Record<string, unknown>,
-  method?: string,
-): Promise<TData> =>
-  fetch(url, optionsConfig(bodyData, method)).then(async (response) => {
-    const data = await response.json();
-
-    if (!response.ok) {
-      return Promise.reject(data);
-    }
-
-    return data;
+const request = async <T>(path: string, init: RequestInit = {}): Promise<T> => {
+  const response = await fetch(`${api}${path}`, {
+    credentials: 'same-origin',
+    headers: {
+      Accept: 'application/json',
+      ...(init.body ? { 'Content-Type': 'application/json' } : {}),
+      ...init.headers,
+    },
+    ...init,
   });
 
-const HttpClient = {
-  get: <TData = unknown>(url: string) => request<TData>(url),
-  post: <TData = unknown>(url: string, bodyData: Record<string, unknown>) =>
-    request<TData>(url, bodyData, HTTP_METHODS.POST),
-  put: <TData = unknown>(url: string, bodyData: Record<string, unknown>) =>
-    request<TData>(url, bodyData, HTTP_METHODS.PUT),
-  delete: (url: string) => request(url, undefined, HTTP_METHODS.DELETE),
+  if (response.status === 204) return undefined as T;
+
+  const data = (await response.json().catch(() => ({}))) as T & ErrorResponse;
+  if (!response.ok) throw new Error(data.error ?? data.message ?? 'Request failed');
+
+  return data;
 };
 
-export default HttpClient;
+const httpClient = {
+  get: <T>(path: string) => request<T>(path),
+  post: <T>(path: string, body: unknown) =>
+    request<T>(path, { method: 'POST', body: JSON.stringify(body) }),
+  patch: <T>(path: string, body: unknown) =>
+    request<T>(path, { method: 'PATCH', body: JSON.stringify(body) }),
+  delete: (path: string) => request<void>(path, { method: 'DELETE' }),
+};
+
+export default httpClient;

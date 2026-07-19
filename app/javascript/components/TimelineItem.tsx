@@ -36,15 +36,17 @@ const getInitials = (username: string) =>
 const TimelineItem = (props: { match: Match }) => {
   const [isExpanded, setIsExpanded] = createSignal(false);
   const isRecent = () =>
-    new Date().getTime() - new Date(props.match.date).getTime() < 7 * 24 * 60 * 60 * 1000;
+    new Date().getTime() - new Date(props.match.matched_at).getTime() < 7 * 24 * 60 * 60 * 1000;
 
   return (
     <li class="group">
       <hr class={`${isRecent() ? 'bg-primary' : 'bg-gray-300'} transition-all duration-300`} />
       <div class="timeline-start">
         <div class="text-right">
-          <div class="text-sm font-semibold text-base-content">{formatDate(props.match.date)}</div>
-          <div class="text-xs text-base-content/60">{formatTime(props.match.date)}</div>
+          <div class="text-sm font-semibold text-base-content">
+            {formatDate(props.match.matched_at)}
+          </div>
+          <div class="text-xs text-base-content/60">{formatTime(props.match.matched_at)}</div>
         </div>
       </div>
       <div class="timeline-middle">
@@ -70,7 +72,7 @@ const TimelineItem = (props: { match: Match }) => {
             <div class="flex items-center justify-between">
               <div class="flex items-center space-x-3">
                 <div class="flex -space-x-2">
-                  <For each={props.match.users}>
+                  <For each={props.match.participants}>
                     {(user) => (
                       <div class="w-8 h-8 rounded-full bg-primary text-primary-content flex items-center justify-center text-sm font-bold ring-2 ring-base-100">
                         {getInitials(user.username)}
@@ -80,11 +82,11 @@ const TimelineItem = (props: { match: Match }) => {
                 </div>
                 <div>
                   <h3 class="font-semibold text-base-content">
-                    Coffee with {props.match.users.map((user) => user.username).join(' & ')}
+                    Coffee with {props.match.participants.map((user) => user.username).join(' & ')}
                   </h3>
                   <p class="text-sm text-base-content/60">
-                    {props.match.users.length} participant
-                    {props.match.users.length !== 1 ? 's' : ''}
+                    {props.match.participants.length} participant
+                    {props.match.participants.length !== 1 ? 's' : ''}
                   </p>
                 </div>
               </div>
@@ -109,25 +111,17 @@ const TimelineItem = (props: { match: Match }) => {
                 <div>
                   <h4 class="text-sm font-semibold text-base-content mb-2">Participants:</h4>
                   <div class="space-y-2">
-                    <For each={props.match.users}>
+                    <For each={props.match.participants}>
                       {(user) => (
                         <div class="flex items-center space-x-3 p-2 bg-base-200 rounded-lg">
                           <div class="w-6 h-6 rounded-full bg-primary text-primary-content flex items-center justify-center text-xs font-bold">
                             {getInitials(user.username)}
                           </div>
-                          <div>
-                            <div class="font-medium text-sm">{user.username}</div>
-                            <div class="text-xs text-base-content/60">{user.email}</div>
-                          </div>
+                          <div class="font-medium text-sm">{user.username}</div>
                         </div>
                       )}
                     </For>
                   </div>
-                </div>
-
-                <div class="flex space-x-2">
-                  <button class="btn btn-primary btn-sm flex-1">📧 Send Message</button>
-                  <button class="btn btn-outline btn-sm flex-1">📅 Schedule</button>
                 </div>
               </div>
             </Show>

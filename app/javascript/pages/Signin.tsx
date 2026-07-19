@@ -65,7 +65,7 @@ const Signin = () => {
               </svg>
               <div>
                 <p class="font-semibold text-lg">Random matching system</p>
-                <p class="text-sky-100">Get paired with different team members each week</p>
+                <p class="text-sky-100">Get randomly paired with available team members</p>
               </div>
             </div>
             <div class="flex items-start gap-4">

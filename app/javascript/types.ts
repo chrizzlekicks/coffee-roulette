@@ -1,23 +1,33 @@
 export interface User {
-  username: string | undefined;
+  id: string;
+  username: string;
+  active: boolean;
+}
+
+export interface Credentials {
+  username: string;
   password: string;
 }
 
-export interface NewUser extends User {
-  email: string;
-  confirmPassword: string;
+export interface NewUser extends Credentials {
+  password_confirmation: string;
 }
 
-export type UserStatus = Pick<User, 'username'> & { isLoggedIn: boolean };
+export interface ProfileUpdate {
+  username: string;
+  active: boolean;
+  password?: string;
+  password_confirmation?: string;
+  current_password?: string;
+}
 
-export interface MatchUser {
+export interface MatchParticipant {
   id: string;
   username: string;
-  email: string;
 }
 
 export interface Match {
   id: string;
-  date: string; // ISO datetime string
-  users: MatchUser[];
+  matched_at: string;
+  participants: MatchParticipant[];
 }

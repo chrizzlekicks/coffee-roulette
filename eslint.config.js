@@ -14,7 +14,7 @@ const compat = new FlatCompat({
 
 export default [
   {
-    ignores: ['public/**'],
+    ignores: ['dist/**', 'public/**'],
   },
   ...compat.extends(
     'airbnb-base',

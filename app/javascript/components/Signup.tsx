@@ -1,67 +1,26 @@
 import { createSignal, Show } from 'solid-js';
 import httpClient from '../lib/httpClient';
-import createPayload from '../lib/createPayload';
-import type { NewUser } from '../types';
+import type { NewUser, User } from '../types';
 
-const initialPayload: NewUser = {
+const initialUser: NewUser = {
   username: '',
-  email: '',
   password: '',
-  confirmPassword: '',
+  password_confirmation: '',
 };
 
 const Signup = () => {
-  const [newUser, setNewUser] = createSignal(initialPayload);
+  const [newUser, setNewUser] = createSignal(initialUser);
   const [message, setMessage] = createSignal('');
-  const [passwordError, setPasswordError] = createSignal('');
 
-  const validatePassword = (password: string) => {
-    if (password.length < 12) {
-      return 'Password must be at least 12 characters long';
+  const handleSubmit = async (event: SubmitEvent) => {
+    event.preventDefault();
+    try {
+      const user = await httpClient.post<User>('/users', newUser());
+      setMessage(`The user ${user.username} was created successfully`);
+      setNewUser(initialUser);
+    } catch (error) {
+      setMessage(error instanceof Error ? error.message : 'Unable to create account');
     }
-    if (!/[A-Z]/.test(password)) {
-      return 'Password must contain at least one uppercase letter';
-    }
-    if (!/[0-9]/.test(password)) {
-      return 'Password must contain at least one number';
-    }
-    if (!/[!@#$%^&*(),.?":{}|<>]/.test(password)) {
-      return 'Password must contain at least one special character';
-    }
-    return '';
-  };
-
-  const handlePasswordChange = (value: string) => {
-    setNewUser({
-      ...newUser(),
-      password: value,
-    });
-  };
-
-  const handlePasswordBlur = () => {
-    const error = validatePassword(newUser().password);
-    setPasswordError(error);
-  };
-
-  const transformUserPayload = (user: NewUser) => {
-    const { confirmPassword, ...rest } = user;
-    return { ...rest, password_confirmation: confirmPassword };
-  };
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-
-    return httpClient
-      .post('/users', createPayload(transformUserPayload(newUser()), 'user'))
-      .then((data: NewUser) => {
-        setMessage(`The user ${data.username} was created successfully`);
-        setNewUser(initialPayload);
-        setPasswordError('');
-      })
-      .catch((error: Error) => {
-        setMessage(error.message);
-      })
-      .finally(() => setTimeout(() => setMessage(''), 3000));
   };
 
   return (
@@ -73,35 +32,12 @@ const Signup = () => {
           </label>
           <input
             class="input input-bordered w-full bg-white text-gray-900 focus:ring-2 focus:ring-primary focus:border-primary"
+            id="username"
             name="username"
             type="text"
             placeholder="Choose a username"
-            onChange={(e) =>
-              setNewUser({
-                ...newUser(),
-                username: e.target.value,
-              })
-            }
+            onInput={(event) => setNewUser({ ...newUser(), username: event.currentTarget.value })}
             value={newUser().username}
-            required
-          />
-        </div>
-        <div>
-          <label for="email" class="block text-sm font-medium text-gray-700 mb-2">
-            Email Address
-          </label>
-          <input
-            class="input input-bordered w-full bg-white text-gray-900 focus:ring-2 focus:ring-primary focus:border-primary"
-            name="email"
-            type="email"
-            placeholder="your.email@company.com"
-            onChange={(e) =>
-              setNewUser({
-                ...newUser(),
-                email: e.target.value,
-              })
-            }
-            value={newUser().email}
             required
           />
         </div>
@@ -111,17 +47,16 @@ const Signup = () => {
           </label>
           <input
             class="input input-bordered w-full bg-white text-gray-900 focus:ring-2 focus:ring-primary focus:border-primary"
+            id="password"
             name="password"
             type="password"
             placeholder="Create a password"
-            onChange={(e) => handlePasswordChange(e.target.value)}
-            onBlur={handlePasswordBlur}
+            onInput={(event) => setNewUser({ ...newUser(), password: event.currentTarget.value })}
             value={newUser().password}
+            minlength="12"
+            maxlength="128"
             required
           />
-          <Show when={passwordError()}>
-            <p class="text-warning text-sm mt-1">{passwordError()}</p>
-          </Show>
         </div>
         <div>
           <label for="password_confirmation" class="block text-sm font-medium text-gray-700 mb-2">
@@ -129,16 +64,16 @@ const Signup = () => {
           </label>
           <input
             class="input input-bordered w-full bg-white text-gray-900 focus:ring-2 focus:ring-primary focus:border-primary"
+            id="password_confirmation"
             name="password_confirmation"
             type="password"
             placeholder="Confirm your password"
-            onChange={(e) =>
-              setNewUser({
-                ...newUser(),
-                confirmPassword: e.target.value,
-              })
+            onInput={(event) =>
+              setNewUser({ ...newUser(), password_confirmation: event.currentTarget.value })
             }
-            value={newUser().confirmPassword}
+            value={newUser().password_confirmation}
+            minlength="12"
+            maxlength="128"
             required
           />
         </div>

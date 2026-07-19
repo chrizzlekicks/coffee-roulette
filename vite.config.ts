@@ -1,9 +1,14 @@
 import { defineConfig } from 'vite';
-import RubyPlugin from 'vite-plugin-ruby';
-import solidPlugin from 'vite-plugin-solid';
+import solid from 'vite-plugin-solid';
 
 export default defineConfig({
-  plugins: [RubyPlugin(), solidPlugin()],
+  plugins: [solid()],
+  server: {
+    proxy: {
+      '/api': 'http://127.0.0.1:3000',
+      '/health': 'http://127.0.0.1:3000',
+    },
+  },
   build: {
     target: 'esnext',
     sourcemap: true,
