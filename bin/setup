@@ -3,8 +3,8 @@ set -eu
 
 npm ci
 cargo fetch
-docker compose up -d postgres
-until docker compose exec -T postgres pg_isready -U postgres -d coffee_roulette >/dev/null 2>&1; do
+docker compose up -d db
+until docker compose exec -T db pg_isready -U postgres -d coffee_roulette >/dev/null 2>&1; do
   sleep 1
 done
 printf '%s\n' 'PostgreSQL is ready. Run: cargo run -- serve'
