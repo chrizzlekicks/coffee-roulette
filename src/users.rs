@@ -260,12 +260,21 @@ async fn verify_password(password: String, hash: String) -> Result<bool> {
 }
 
 fn valid_password(password: &str) -> Result<()> {
-    if (12..=128).contains(&password.chars().count()) {
+    let length = password.chars().count();
+    if (12..=128).contains(&length)
+        && password
+            .chars()
+            .any(|character| character.is_ascii_uppercase())
+        && password.chars().any(|character| character.is_ascii_digit())
+        && password
+            .chars()
+            .any(|character| r#"!@#$%^&*(),.?":{}|<>"#.contains(character))
+    {
         Ok(())
     } else {
         Err(AppError::new(
             StatusCode::UNPROCESSABLE_ENTITY,
-            "password must be 12 to 128 characters",
+            "password must be 12 to 128 characters and contain an uppercase letter, number, and special character",
         ))
     }
 }
@@ -298,20 +307,24 @@ mod tests {
     use super::*;
 
     #[test]
-    fn normalizes_identity_and_enforces_password_bounds() {
+    fn normalizes_identity_and_enforces_password_complexity() {
         assert_eq!(username(" Alice ".into()).unwrap(), "alice");
-        assert!(valid_password("short").is_err());
-        assert!(valid_password(&"a".repeat(129)).is_err());
-        assert!(valid_password("a secure pass").is_ok());
+        assert!(valid_password("Short1!").is_err());
+        assert!(valid_password(&format!("A1!{}", "a".repeat(126))).is_err());
+        assert!(valid_password("lowercase123!").is_err());
+        assert!(valid_password("NoNumbersHere!").is_err());
+        assert!(valid_password("NoSpecialChar123").is_err());
+        assert!(valid_password("ValidPassword123!").is_ok());
     }
 
     #[tokio::test]
     async fn password_hashes_are_argon2id_and_verifiable() {
-        let password = confirmed_password("a secure pass".into(), "a secure pass".into()).unwrap();
+        let password =
+            confirmed_password("ValidPassword123!".into(), "ValidPassword123!".into()).unwrap();
         let hash = password_hash(password).await.unwrap();
         assert!(hash.starts_with("$argon2id$"));
         assert!(
-            verify_password("a secure pass".into(), hash.clone())
+            verify_password("ValidPassword123!".into(), hash.clone())
                 .await
                 .unwrap()
         );
@@ -402,7 +415,7 @@ mod tests {
                     .header(header::CONTENT_TYPE, "application/json")
                     .header(header::COOKIE, &cookie)
                     .body(Body::from(
-                        r#"{"password":"a newer secure pass","password_confirmation":"a newer secure pass"}"#,
+                        r#"{"password":"NewValidPassword456!","password_confirmation":"NewValidPassword456!"}"#,
                     ))
                     .unwrap(),
             )
@@ -418,7 +431,7 @@ mod tests {
                     .header(header::CONTENT_TYPE, "application/json")
                     .header(header::COOKIE, &cookie)
                     .body(Body::from(
-                        r#"{"password":"a newer secure pass","password_confirmation":"a newer secure pass","current_password":"wrong password"}"#,
+                        r#"{"password":"NewValidPassword456!","password_confirmation":"NewValidPassword456!","current_password":"wrong password"}"#,
                     ))
                     .unwrap(),
             )
@@ -434,7 +447,7 @@ mod tests {
                     .header(header::CONTENT_TYPE, "application/json")
                     .header(header::COOKIE, &cookie)
                     .body(Body::from(
-                        r#"{"password":"a newer secure pass","password_confirmation":"a newer secure pass","current_password":"a secure pass"}"#,
+                        r#"{"password":"NewValidPassword456!","password_confirmation":"NewValidPassword456!","current_password":"a secure pass"}"#,
                     ))
                     .unwrap(),
             )
