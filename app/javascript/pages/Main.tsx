@@ -72,7 +72,7 @@ const Main = () => {
                     {
                       matches()!.filter(
                         (match) =>
-                          new Date().getTime() - new Date(match.date).getTime() <
+                          new Date().getTime() - new Date(match.matched_at).getTime() <
                           7 * 24 * 60 * 60 * 1000,
                       ).length
                     }
@@ -86,7 +86,9 @@ const Main = () => {
               <For
                 each={matches()
                   ?.slice()
-                  .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())}
+                  .sort(
+                    (a, b) => new Date(b.matched_at).getTime() - new Date(a.matched_at).getTime(),
+                  )}
               >
                 {(match) => <TimelineItem match={match} />}
               </For>

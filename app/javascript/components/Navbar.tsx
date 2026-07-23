@@ -7,35 +7,31 @@ const Navbar = () => {
   const { state, setState } = useAuthContext();
   const navigate = useNavigate();
 
-  const handleLogout = (e) => {
-    e.preventDefault();
-
-    return httpClient.delete('/logout').then(() => {
-      setState({ username: undefined, isLoggedIn: false });
-      sessionStorage.clear();
-      navigate('/');
-    });
+  const handleLogout = async () => {
+    await httpClient.delete('/session');
+    setState({ user: null, loading: false });
+    navigate('/', { replace: true });
   };
 
   return (
     <div class="navbar bg-base-100 shadow-lg">
       <div class="flex-1">
-        <A class="btn btn-ghost text-xl" href={state.isLoggedIn ? '/main' : '/'}>
+        <A class="btn btn-ghost text-xl" href={state.user ? '/main' : '/'}>
           CoffeeRoulette
         </A>
       </div>
       <div class="flex-none">
         <div class="navbar-end">
           <Show
-            when={state.isLoggedIn}
+            when={state.user}
             fallback={
               <A class="btn" href="/signin">
-                Signin
+                Sign in
               </A>
             }
           >
             <div class="flex justify-between gap-2">
-              <A class="btn" href="/settings">
+              <A class="btn" href="/settings" aria-label="Settings">
                 ⚙️
               </A>
               <button class="btn" onClick={handleLogout}>

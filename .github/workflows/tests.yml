@@ -1,38 +1,43 @@
-name: Run tests action
-on: [push]
+name: Checks
+
+on: [push, pull_request]
+
 jobs:
-  Tests:
+  checks:
     runs-on: ubuntu-latest
-    steps:
-      - name: Check out repository code
-        uses: actions/checkout@v4
-      - name: List files in the repository
-        run: |
-          ls ${{ github.workspace }}
-      - uses: ruby/setup-ruby@v1
-        with:
-          ruby-version: .ruby-version
-      - run: bundle install && npm ci
-      - name: Start containers
-        run: docker compose up -d
-      - run: echo "The containers have been started!"
-      - name: Run migrations
-        run: rails db:create && rails db:migrate
-      - name: Run tests
+    services:
+      postgres:
+        image: postgres:16
         env:
-          CI: true
-        run: bundle exec rake
-
-  ESLint:
-    runs-on: ubuntu-latest
+          POSTGRES_DB: coffee_roulette_test
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U postgres -d coffee_roulette_test"
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 5
+    env:
+      DATABASE_URL: postgres://postgres:postgres@127.0.0.1:5432/coffee_roulette_test
+      TEST_DATABASE_URL: postgres://postgres:postgres@127.0.0.1:5432/coffee_roulette_test
     steps:
-      - name: Check out repository code
-        uses: actions/checkout@v4
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: '18'
-      - run: npm ci
-      - name: Format with Biome and then run ESLint
-        run: npm run format:lint
+      - uses: actions/checkout@v4
 
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - run: npm run typecheck
+      - run: npm run build
+      - run: npm run lint
+
+      - uses: dtolnay/rust-toolchain@stable
+        with:
+          toolchain: 1.88.0
+          components: rustfmt
+      - uses: Swatinem/rust-cache@v2
+      - run: cargo fmt --check
+      - run: cargo test

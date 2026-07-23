@@ -1,39 +1,39 @@
-import { createContext, useContext, JSXElement } from 'solid-js';
-import { createStore } from 'solid-js/store';
+import { createContext, onMount, type ParentProps, useContext } from 'solid-js';
+import { createStore, type SetStoreFunction } from 'solid-js/store';
+import httpClient from '../lib/httpClient';
+import type { User } from '../types';
+
+type AuthState = {
+  user: User | null;
+  loading: boolean;
+};
 
 type AuthContextValues = {
-  state: UserStatus;
-  setState: <T>(state: T) => void;
+  state: AuthState;
+  setState: SetStoreFunction<AuthState>;
 };
 
-const initialUserState: UserStatus = {
-  username: undefined,
-  isLoggedIn: false,
-};
+const AuthContext = createContext<AuthContextValues>();
 
-const AuthContext = createContext<AuthContextValues>({
-  state: initialUserState,
-  setState: () => {},
-});
+export function AuthProvider(props: ParentProps) {
+  const [state, setState] = createStore<AuthState>({ user: null, loading: true });
 
-const getInitialState = () => {
-  const user = sessionStorage.getItem('user');
-
-  return user ? { username: user, isLoggedIn: true } : initialUserState;
-};
-
-export function AuthProvider(props: { children: JSXElement }) {
-  const [state, setState] = createStore(getInitialState());
+  onMount(async () => {
+    try {
+      setState({ user: await httpClient.get<User>('/me') });
+    } catch {
+      setState({ user: null });
+    } finally {
+      setState({ loading: false });
+    }
+  });
 
   return <AuthContext.Provider value={{ state, setState }}>{props.children}</AuthContext.Provider>;
 }
 
 export function useAuthContext() {
   const context = useContext(AuthContext);
-
-  if (!context) {
-    throw new Error('useAuthContext: cannot find a AuthContext');
-  }
+  if (!context) throw new Error('useAuthContext must be used inside AuthProvider');
 
   return context;
 }

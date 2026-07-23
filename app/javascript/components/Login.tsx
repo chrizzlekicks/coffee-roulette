@@ -1,40 +1,27 @@
-import { createSignal, Show } from 'solid-js';
 import { useNavigate } from '@solidjs/router';
-import httpClient from '../lib/httpClient';
-import createPayload from '../lib/createPayload';
+import { createSignal, Show } from 'solid-js';
 import { useAuthContext } from '../contexts/AuthContext';
+import httpClient from '../lib/httpClient';
+import type { Credentials, User } from '../types';
 
-const initialPayload: User = {
-  password: '',
-  username: '',
-};
+const initialCredentials: Credentials = { username: '', password: '' };
+
 const Login = () => {
   const { setState } = useAuthContext();
-  const [user, setUser] = createSignal(initialPayload);
+  const [credentials, setCredentials] = createSignal(initialCredentials);
   const [message, setMessage] = createSignal('');
   const navigate = useNavigate();
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-
-    return httpClient
-      .post('/login', createPayload(user(), 'user'))
-      .then((data: { username: string; message: string }) => {
-        setState((prevState: UserStatus) => ({
-          ...prevState,
-          username: data.username,
-          isLoggedIn: true,
-        }));
-        sessionStorage.setItem('user', data.username);
-        setUser(initialPayload);
-        navigate('/main', { replace: true });
-      })
-      .catch((error: Error) => {
-        setMessage(error.message);
-      })
-      .finally(() => {
-        setTimeout(() => setMessage(''), 3000);
-      });
+  const handleSubmit = async (event: SubmitEvent) => {
+    event.preventDefault();
+    try {
+      const user = await httpClient.post<User>('/session', credentials());
+      setState({ user, loading: false });
+      setCredentials(initialCredentials);
+      navigate('/main', { replace: true });
+    } catch (error) {
+      setMessage(error instanceof Error ? error.message : 'Unable to sign in');
+    }
   };
 
   return (
@@ -42,20 +29,18 @@ const Login = () => {
       <form class="space-y-5" onSubmit={handleSubmit}>
         <div>
           <label for="username" class="block text-sm font-medium text-gray-700 mb-2">
-            Email or Username
+            Username
           </label>
           <input
             class="input input-bordered w-full bg-white text-gray-900 focus:ring-2 focus:ring-primary focus:border-primary"
+            id="username"
             name="username"
             type="text"
             placeholder="Enter your username"
-            onChange={(e) =>
-              setUser({
-                ...user(),
-                username: e.target.value,
-              })
+            onInput={(event) =>
+              setCredentials({ ...credentials(), username: event.currentTarget.value })
             }
-            value={user().username}
+            value={credentials().username}
             required
           />
         </div>
@@ -65,16 +50,14 @@ const Login = () => {
           </label>
           <input
             class="input input-bordered w-full bg-white text-gray-900 focus:ring-2 focus:ring-primary focus:border-primary"
+            id="password"
             name="password"
             type="password"
             placeholder="Enter your password"
-            onChange={(e) =>
-              setUser({
-                ...user(),
-                password: e.target.value,
-              })
+            onInput={(event) =>
+              setCredentials({ ...credentials(), password: event.currentTarget.value })
             }
-            value={user().password}
+            value={credentials().password}
             required
           />
         </div>
