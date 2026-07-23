@@ -15,7 +15,8 @@ const PASSWORD: &str = "ValidPassword123!";
 
 async fn setup() -> (PgPool, axum::Router) {
     let url = env::var("TEST_DATABASE_URL")
-        .expect("TEST_DATABASE_URL must point to an existing PostgreSQL test database");
+        .or_else(|_| env::var("DATABASE_URL"))
+        .expect("DATABASE_URL must point to an existing PostgreSQL test database");
     let pool = PgPoolOptions::new()
         .max_connections(5)
         .connect(&url)
